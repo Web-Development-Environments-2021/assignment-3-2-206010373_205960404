@@ -16,6 +16,8 @@ async function removeAsFavorite(schema, column, user_id, deleted_id) {
 
 //get
 async function getFavorites(schema, user_id) {
+  console.log(schema);
+  console.log(user_id);
   const ids = await DButils.execQuery(
     `select player_id from ${schema} where user_id='${user_id}'`
   );
