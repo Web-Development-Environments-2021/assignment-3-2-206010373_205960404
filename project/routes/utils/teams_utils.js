@@ -1,26 +1,26 @@
 const DButils = require("./DButils");
+const players_utils = require("./players_utils");
 
-//post
-async function markPlayerAsFavorite(user_id, player_id) {
-  await DButils.execQuery(
-    `insert into FavoritePlayers values ('${user_id}',${player_id})`
-  );
-}
+async function getTeamDetails(teamID) {
+    let team_details = [];
+    // const players_details = await players_utils.getPlayersByTeam(teamID);
+    // team_details.push(players_details);
+      
+    const past_home_team_games = await DButils.execQuery(`SELECT * FROM dbo.games WHERE hometeamID = ${teamID} AND score IS NOT NULL`);
+    const past_away_team_games = await DButils.execQuery(`SELECT * FROM dbo.games WHERE awayteamID = ${teamID} AND score IS NOT NULL`);
+    const future_home_team_games = await DButils.execQuery(`SELECT * FROM dbo.games WHERE hometeamID = ${teamID} AND score IS NULL`);
+    const future_away_team_games = await DButils.execQuery(`SELECT * FROM dbo.games WHERE awayteamID = ${teamID} AND score IS NULL`);
+    team_details.push(past_home_team_games);
+    team_details.push(past_away_team_games);
+    team_details.push(future_home_team_games);
+    team_details.push(future_away_team_games);
 
-//delete
-async function removePlayerAsFavorite(user_id, player_id) {
-  await DButils.execQuery(
-    `delete from FavoritePlayers where username='${user_id}'`
-  );
-}
+    // return team_details;
 
-//put
-async function getFavoritePlayers(user_id) {
-  const player_ids = await DButils.execQuery(
-    `select player_id from FavoritePlayers where user_id='${user_id}'`
-  );
-  return player_ids;
-}
+    return {
+      team_details: team_details
 
-exports.markPlayerAsFavorite = markPlayerAsFavorite;
-exports.getFavoritePlayers = getFavoritePlayers;
+    };
+  }
+
+  exports.getTeamDetails = getTeamDetails;

@@ -479,7 +479,7 @@ components:
             type: object
             $ref: "#/components/schemas/PlayerPreview"
 
-  //from here ours
+  #from here ours
     EventInGame:
       type: string
       enum:

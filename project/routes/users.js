@@ -8,8 +8,10 @@ const players_utils = require("./utils/players_utils");
  * Authenticate all incoming requests by middleware
  */
 router.use(async function (req, res, next) {
+  console.log(req.session.user_id);
   if (req.session && req.session.user_id) {
-    DButils.execQuery("SELECT user_id FROM Users")
+    
+    DButils.execQuery("SELECT username FROM Users")
       .then((users) => {
         if (users.find((x) => x.user_id === req.session.user_id)) {
           req.user_id = req.session.user_id;
