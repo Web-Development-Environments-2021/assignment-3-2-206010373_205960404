@@ -1,17 +1,31 @@
 const DButils = require("./DButils");
 
-async function markPlayerAsFavorite(user_id, player_id) {
+//post
+async function markAsFavorite(schema, user_id, added_id) {
   await DButils.execQuery(
-    `insert into FavoritePlayers values ('${user_id}',${player_id})`
+    `insert into ${schema} values ('${user_id}',${added_id})`
   );
 }
 
-async function getFavoritePlayers(user_id) {
-  const player_ids = await DButils.execQuery(
-    `select player_id from FavoritePlayers where user_id='${user_id}'`
+//delete
+async function removeAsFavorite(schema, column, user_id, deleted_id) {
+  await DButils.execQuery(
+    `delete from ${schema} where user_id='${user_id}' and '${column}'='${deleted_id}'`
   );
-  return player_ids;
 }
 
-exports.markPlayerAsFavorite = markPlayerAsFavorite;
-exports.getFavoritePlayers = getFavoritePlayers;
+//get
+async function getFavorites(schema, user_id) {
+  const ids = await DButils.execQuery(
+    `select player_id from ${schema} where user_id='${user_id}'`
+  );
+  return ids;
+}
+
+exports.markAsFavorite = markAsFavorite;
+exports.removeAsFavorite = removeAsFavorite;
+exports.getFavorites = getFavorites;
+
+
+
+

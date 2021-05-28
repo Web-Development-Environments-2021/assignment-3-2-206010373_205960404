@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: api
-  description: API for  project
+  description: API for project
   version: 1.0.0
 tags:
   - name: Users
@@ -9,7 +9,8 @@ tags:
   - name: League
   - name: Players
   - name: Teams
-  - name: Games
+  - name: Matches
+  - name: Admin
 paths:
   /Register:
     post:
@@ -116,6 +117,143 @@ paths:
           description: The player successfully saved as favorite
         "401":
           description: user is not authorized
+    delete:
+      tags:
+        - Users
+        - Players
+      summary: delete player from user favorite array
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerId:
+                  type: string
+                  description: player's id which the user saved
+                  example: 85
+      responses:
+        "205":
+          description: player deleted from list Succsessfully
+        "404":
+          description: Player not found
+
+  /users/favoriteTeams:
+    get:
+      tags:
+        - Users
+        - Teams
+      summary: Return the favorite teams that were saved by user
+      parameters:
+      responses:
+        "200":
+          description: data about the user's favorites Teams returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamPreview"
+        "401":
+          description: user is not authorized
+    post:
+      summary: save team in the favorites list of a user
+      tags:
+        - Users
+        - Teams
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerId:
+                  type: string
+                  description: team's id which the user saved
+                  example: 85
+      responses:
+        "201":
+          description: The team successfully saved as favorite
+        "401":
+          description: user is not authorized
+    delete:
+      tags:
+        - Users
+        - Teams
+      summary: delete team from user favorite array
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerId:
+                  type: string
+                  description: team's id which the user saved
+                  example: 85
+      responses:
+        "205":
+          description: team deleted from list Succsessfully
+        "404":
+          description: team not found
+  /users/favoriteMatches:
+    get:
+      tags:
+        - Users
+        - Matches
+      summary: Return the favorite Matches that were saved by user
+      parameters:
+      responses:
+        "200":
+          description: data about the user's favorites Matches returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MatchPreview"
+        "401":
+          description: user is not authorized
+    post:
+      summary: save match in the favorites list of a user
+      tags:
+        - Users
+        - Matches
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerId:
+                  type: string
+                  description: match's id which the user saved
+                  example: 85
+      responses:
+        "201":
+          description: The match successfully saved as favorite
+        "401":
+          description: user is not authorized
+    delete:
+      tags:
+        - Users
+        - Matches
+      summary: delete match from user favorite array
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playerId:
+                  type: string
+                  description: match's id which the user saved
+                  example: 85
+      responses:
+        "205":
+          description: match deleted from list Succsessfully
+        "404":
+          description: match not found
   /teams/teamFullDetails/{teamId}:
     get:
       summary: get full deatils about a team
@@ -138,6 +276,74 @@ paths:
                 $ref: "#/components/schemas/Team"
         "404":
           description: teamId is not exists
+  /admin/addPreviewMatch:
+    post:
+      tags:
+      - Admin
+      summary: Add New match to system
+      description: The admin add's details about a new future game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+        description:
+      responses:
+        "201":
+          description: Add New match to system Successfuly
+        "400":
+          description: fail to add match to system
+
+  /players/preview/{playerID}:
+    get:
+      tags:
+      - Player
+      summary: get a preview about a player by his ID
+      parameters:
+      - name: playerID
+        in: path
+        description: The ID of the player
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+        example: 12345
+      responses:
+        "200":
+          description: Data of the specific player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerPreview'
+        "404":
+          description: Can't find player ID
+  /player/Details/{playerID}:
+    get:
+      tags:
+      - Player
+      summary: get all Details about a player by his ID
+      parameters:
+      - name: playerID
+        in: path
+        description: The ID of the player
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+        example: 12345
+      responses:
+        "200":
+          description: Full Data of the specific player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailsPlayer'
+        "404":
+          description: Can't find player ID
+
 components:
   schemas:
     User:
@@ -175,7 +381,7 @@ components:
           type: string
           description: user's email
           example: ladygaga@gmail.com
-        image-url:
+        imageurl:
           pattern: URL
           type: string
           description: URL for the user's image
@@ -215,6 +421,9 @@ components:
     PlayerPreview:
       type: object
       properties:
+        playerID:
+          type: integer
+          example: 1
         name:
           type: string
           description: player's name
@@ -232,6 +441,31 @@ components:
           type: string
           description: player's team name
           example: København
+    DetailsPlayer:
+      type: object
+      properties:
+        playerPreview:
+          $ref: '#/components/schemas/PlayerPreview'
+        common_name:
+          type: string
+          example: messi
+        nationality:
+          type: string
+          example: israel
+        birthdate:
+          type: string
+          format: Date
+          example: 14/10/95
+        birthcountry:
+          type: string
+          example: israel
+        height:
+          type: integer
+          example: 80
+        weight:
+          type: integer
+      description: additional data that is not displayed in the PlayerPreview.
+
     Team:
       type: object
       properties:
@@ -244,3 +478,90 @@ components:
           items:
             type: object
             $ref: "#/components/schemas/PlayerPreview"
+
+  //from here ours
+    EventInGame:
+      type: string
+      enum:
+      - Goal
+      - Offside
+      - Foul
+      - RedCard
+      - YellowCard
+      - Injury
+      - SubPlayer
+    EventDetails:
+      type: object
+      properties:
+        Date:
+          type: string
+          format: Date
+          example: 2017-07-21T00:00:00.000+0000
+        Hour:
+          type: string
+          example: 15:30
+        TimeMinuteInGame:
+          maximum: 90
+          minimum: 0
+          type: integer
+          example: 60
+        EventInGame:
+        #ask if schema or enum?
+          type: string
+          #$ref: '#/components/schemas/EventInGame'
+          description: You need to choose one of the following options - Goal, Offside, Foul,RedCard,YellowCard,Injury,SubPlayer
+        PlayerID:
+          type: integer
+          example: Neymar
+        Description:
+          type: string
+      example: 15.05.2021 21:30 60, Red card to Liad Segev
+    PreviewMatch:
+      type: object
+      properties:
+        gameID:
+          type: integer
+          example: 12345
+        date:
+          type: string
+          format: date
+        hour:
+          type: string
+          example: 15:30
+        stadium:
+          type: string
+          example: Camp nou
+        superligaName:
+          type: string
+          example: Ligat Haal
+        seasonName:
+          type: string
+          example: 2020-2021
+        stageName:
+          type: string
+          example: Final
+        homeTeamID:
+          type: integer
+          example: 12345
+        awayTeamID:
+          type: integer
+          example: 12345
+    Match:
+      type: object
+      properties:
+        previewMatch:
+          $ref: '#/components/schemas/PreviewMatch'
+        refereeName:
+          type: string
+          example: Dvir Rainisch
+        homeGoals:
+          type: integer
+          example: 3
+        awayGoals:
+          type: integer
+          example: 2
+        eventsCalendar:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDetails'
+
