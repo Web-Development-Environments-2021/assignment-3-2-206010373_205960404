@@ -108,7 +108,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: player's id which the user saved
                   example: 85
@@ -128,7 +128,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: player's id which the user saved
                   example: 85
@@ -167,7 +167,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: team's id which the user saved
                   example: 85
@@ -187,7 +187,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: team's id which the user saved
                   example: 85
@@ -225,7 +225,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: match's id which the user saved
                   example: 85
@@ -245,7 +245,7 @@ paths:
             schema:
               type: object
               properties:
-                playerId:
+                player_id:
                   type: string
                   description: match's id which the user saved
                   example: 85
@@ -295,13 +295,13 @@ paths:
         "400":
           description: fail to add match to system
 
-  /players/preview/{playerID}:
+  /players/preview/{player_id}:
     get:
       tags:
       - Player
       summary: get a preview about a player by his ID
       parameters:
-      - name: playerID
+      - name: player_id
         in: path
         description: The ID of the player
         required: true
@@ -319,13 +319,13 @@ paths:
                 $ref: '#/components/schemas/PlayerPreview'
         "404":
           description: Can't find player ID
-  /player/Details/{playerID}:
+  /player/Details/{player_id}:
     get:
       tags:
       - Player
       summary: get all Details about a player by his ID
       parameters:
-      - name: playerID
+      - name: player_id
         in: path
         description: The ID of the player
         required: true
@@ -421,7 +421,7 @@ components:
     PlayerPreview:
       type: object
       properties:
-        playerID:
+        player_id:
           type: integer
           example: 1
         name:
@@ -510,7 +510,7 @@ components:
           type: string
           #$ref: '#/components/schemas/EventInGame'
           description: You need to choose one of the following options - Goal, Offside, Foul,RedCard,YellowCard,Injury,SubPlayer
-        PlayerID:
+        player_id:
           type: integer
           example: Neymar
         Description:

@@ -30,7 +30,7 @@ router.use(async function (req, res, next) {
 router.post("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const player_id = req.body.playerId;
+    const player_id = req.body.player_id;
     console.log(user_id);
     console.log(player_id);
 
@@ -64,9 +64,9 @@ router.get("/favoritePlayers", async (req, res, next) => {
  router.delete("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const player_id_deleted = req.body.playerId;
+    const player_id_deleted = req.body.player_id;
     
-    const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","PlayerId", user_id ,player_id_deleted);
+    const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","player_id", user_id ,player_id_deleted);
     res.status(200).send(player_ids);
   } catch (error) {
     next(error);
