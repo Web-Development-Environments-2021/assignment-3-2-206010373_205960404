@@ -295,6 +295,25 @@ paths:
         "400":
           description: fail to add match to system
 
+  /admin/addMatch:
+    post:
+      tags:
+      - Admin
+      summary: Add New match to system
+      description: The admin add's details about a new future game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+        description:
+      responses:
+        "201":
+          description: Add New match to system Successfuly
+        "400":
+          description: fail to add match to system
+          
   /players/preview/{player_id}:
     get:
       tags:
@@ -536,7 +555,7 @@ components:
           example: Ligat Haal
         seasonName:
           type: string
-          example: 2020-2021
+          example: 2020/2021
         stageName:
           type: string
           example: Final
