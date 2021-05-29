@@ -19,24 +19,42 @@ router.use(async function (req, res, next) {
   }
 });
 
-// router.post("/addMatch", async (req, res, next) => {
-//   try {
-//       const user_id = req.session.user_id;
-//       if (user_id != 1) { //not admin 
-//           res.status(403).send("The user doesn't have Permissions to add games")
-//       }
-//       else {
-//           await DButils.execQuery(
-//               `INSERT INTO dbo.games (MatchID, Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
-//               ('${req.body.MatchID}', '${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}','${req.body.HomeGoals}','${req.body.AwayGoals}')`
-//           );
-//           res.status(201).send("game has been added");
-//       }
-//   } catch (error) {
-//       next(error);
-//   }
-// });
+router.post("/addMatch", async (req, res, next) => {
+  try {
+      const user_id = req.session.user_id;
+      if (user_id != 1) { //not admin 
+          res.status(403).send("The user doesn't have Permissions to add games")
+      }
+      else {
+          await DButils.execQuery(
+              `INSERT INTO dbo.games (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
+              ('${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}','${req.body.HomeGoals}','${req.body.AwayGoals}')`
+          );
+          res.status(201).send("game that was played has been added succesfully");
+      }
+  } catch (error) {
+      next(error);
+  }
+});
 
+
+router.post("/addPreviewMatch", async (req, res, next) => {
+    try {
+        const user_id = req.session.user_id;
+        if (user_id != 1) { //not admin 
+            res.status(403).send("The user doesn't have Permissions to add games")
+        }
+        else {
+            await DButils.execQuery(
+                `INSERT INTO dbo.games (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName) VALUES 
+                ('${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}')`
+            );
+            res.status(201).send("game that was not played was added succesfully");
+        }
+    } catch (error) {
+        next(error);
+    }
+  });
 
 // // add score and events 
 

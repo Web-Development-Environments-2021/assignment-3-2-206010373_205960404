@@ -133,7 +133,7 @@ paths:
                   description: player's id which the user saved
                   example: 85
       responses:
-        "205":
+        "200":
           description: player deleted from list Succsessfully
         "404":
           description: Player not found
@@ -192,7 +192,7 @@ paths:
                   description: team's id which the user saved
                   example: 85
       responses:
-        "204":
+        "205":
           description: team deleted from list Succsessfully
         "404":
           description: team not found
