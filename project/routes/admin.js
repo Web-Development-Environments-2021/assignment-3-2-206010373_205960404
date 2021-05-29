@@ -27,10 +27,10 @@ router.post("/addMatch", async (req, res, next) => {
       }
       else {
           await DButils.execQuery(
-              `INSERT INTO dbo.games (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
+              `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
               ('${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}','${req.body.HomeGoals}','${req.body.AwayGoals}')`
           );
-          res.status(201).send("game that was played has been added succesfully");
+          res.status(201).send("match that was played has been added succesfully");
       }
   } catch (error) {
       next(error);
@@ -38,24 +38,61 @@ router.post("/addMatch", async (req, res, next) => {
 });
 
 
-router.post("/addPreviewMatch", async (req, res, next) => {
+router.post("/addPreview", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
         if (user_id != 1) { //not admin 
-            res.status(403).send("The user doesn't have Permissions to add games")
+            res.status(403).send("The user doesn't have Permissions to add a match")
         }
         else {
             await DButils.execQuery(
-                `INSERT INTO dbo.games (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName) VALUES 
+                `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName) VALUES 
                 ('${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}')`
             );
-            res.status(201).send("game that was not played was added succesfully");
+            res.status(201).send("match that was not played was added succesfully");
         }
     } catch (error) {
         next(error);
     }
   });
+ 
+router.put("/addScoretoMatch", async (req, res, next) => {
+    try {
+        const user_id = req.session.user_id;
+        if (user_id != 1) {
+            res.status(403).send("The user doesn't have Permissions to add a match score")
+        }
+        else {
+            const gameid = req.body.gameId;
+            const HomeGoals = req.body.score;
+            const AwayGoals = req.body.score;
 
-// // add score and events 
+            await DButils.execQuery(
+                `update dbo.Matches set HomeGoals = '${HomeGoals}' and AwayGoals = '${AwayGoals}' where gameID = '${gameid}'`
+            );
+            res.status(201).send("score has been added to match");
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/addEventtoMatch", async (req, res, next) => {
+    try {
+        const user_id = req.session.user_id;
+        if (user_id != 1) {
+            res.status(403).send("The user doesn't have Permissions to add a match Event")
+        }
+        else {
+            const user_id = req.session.user_id;
+            await DButils.execQuery(
+                `INSERT INTO dbo.EventDetails (gameID, Date, Hour, TimeMinuteInGame, EventInGame, playerID, Description) VALUES ('${req.body.gameID}', '${req.body.Date}','${req.body.Hour}', '${req.body.TimeMinuteInGame}','${req.body.EventInGame}','${req.body.PlayerID}','${req.body.Description}')`
+            );
+            res.status(201).send("event has been added succesfully");
+        }
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;
