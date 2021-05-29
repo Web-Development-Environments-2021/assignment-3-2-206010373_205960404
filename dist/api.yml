@@ -288,7 +288,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Match'
+              $ref: '#/components/schemas/PreviewMatch'
         description:
       responses:
         "201":
@@ -315,7 +315,7 @@ paths:
         "400":
           description: failed to add a match to the system
 
-    /admin/addScoretoMatch:
+  /admin/addScoretoMatch:
     put:
       tags:
       - Admin
@@ -346,23 +346,23 @@ paths:
           description: Wrong input parameters
 
   /admin/addEventtoMatch:
-      post:
-        tags:
-        - Admin
-        summary: Add New event to a match.
-        description: The admin add's events to a match
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventDetails'
-          description: add a new event
-        responses:
-          '200':
-            description: A new event has been added.
-          '400':
-            description: failed to add an event.
+    post:
+      tags:
+      - Admin
+      summary: Add New event to a match.
+      description: The admin add's events to a match
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventDetails'
+        description: add a new event
+      responses:
+        '200':
+          description: A new event has been added.
+        '400':
+          description: failed to add an event.
           
   /players/preview/{player_id}:
     get:
@@ -586,7 +586,7 @@ components:
           example: Neymar
         Description:
           type: string
-      example: 15.05.2021 21:30 60, Red card to Liad Segev
+          example: 15.05.2021 21:30 60, Red card to Liad Segev
     PreviewMatch:
       type: object
       properties:
