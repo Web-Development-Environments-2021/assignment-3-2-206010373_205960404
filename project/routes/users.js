@@ -67,7 +67,7 @@ router.get("/favoritePlayers", async (req, res, next) => {
     const player_id_deleted = req.body.player_id;
     
     const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","player_id", user_id ,player_id_deleted);
-    res.status(200).send(player_ids);
+    res.status(200).send("The player was successfully deleted as favorite");
   } catch (error) {
     next(error);
   }

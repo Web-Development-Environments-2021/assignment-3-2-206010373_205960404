@@ -9,8 +9,9 @@ async function markAsFavorite(schema, user_id, added_id) {
 
 //delete
 async function removeAsFavorite(schema, column, user_id, deleted_id) {
+  console.log(`delete from ${schema} where user_id='${user_id}' and ${column}='${deleted_id}'`);
   await DButils.execQuery(
-    `delete from ${schema} where user_id='${user_id}' and '${column}'='${deleted_id}'`
+    `delete from ${schema} where user_id='${user_id}' and ${column}='${deleted_id}'`
   );
 }
 

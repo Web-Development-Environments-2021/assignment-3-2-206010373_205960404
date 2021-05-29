@@ -192,7 +192,7 @@ paths:
                   description: team's id which the user saved
                   example: 85
       responses:
-        "205":
+        "204":
           description: team deleted from list Succsessfully
         "404":
           description: team not found
