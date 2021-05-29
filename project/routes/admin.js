@@ -22,13 +22,13 @@ router.use(async function (req, res, next) {
 router.post("/addMatch", async (req, res, next) => {
   try {
       const user_id = req.session.user_id;
-      if (user_id != 1) { //not admin 
+      if (user_id != 2) { //not admin 
           res.status(403).send("The user doesn't have Permissions to add games")
       }
       else {
           await DButils.execQuery(
-              `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
-              ('${req.body.Date}','${req.body.Hour}', '${req.body.Stadium}','${req.body.SuperligaName}','${req.body.SeasonName}','${req.body.StageName}','${req.body.HomeTeamID}','${req.body.AwayTeamID}','${req.body.RefereeName}','${req.body.HomeGoals}','${req.body.AwayGoals}')`
+           `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
+              ('${req.body.previewMatch.date}','${req.body.previewMatch.hour}', '${req.body.previewMatch.stadium}','${req.body.previewMatch.superligaName}','${req.body.previewMatch.seasonName}','${req.body.previewMatch.stageName}','${req.body.previewMatch.homeTeamID}','${req.body.previewMatch.awayTeamID}','${req.body.refereeName}','${req.body.homeGoals}','${req.body.awayGoals}')`
           );
           res.status(201).send("match that was played has been added succesfully");
       }
