@@ -20,13 +20,13 @@ async function getLeagueDetails() {
     }
   );
 
-  //const next_game = await DButils.execQuery(`select  TOP 1 * from dbo.games where score is null ORDER BY gametimeDate asc`);
+  //const next_game = await DButils.execQuery(`select  TOP 1 * from dbo.Matches where score is null ORDER BY Date asc`);
 
   return {
     league_name: league.data.data.name,
     current_season_name: league.data.data.season.data.name,
     current_stage_name: stage.data.data.name,
-    // nextgame: next_game
+    nextgame: next_game
   };
 }
 exports.getLeagueDetails = getLeagueDetails;

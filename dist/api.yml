@@ -538,15 +538,12 @@ components:
     PreviewMatch:
       type: object
       properties:
-        gameID:
-          type: integer
-          example: 12345
         date:
           type: string
-          format: date
+          #format: date
         hour:
           type: string
-          example: 15:30
+          example: "15:30"
         stadium:
           type: string
           example: Camp nou
