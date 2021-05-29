@@ -345,24 +345,24 @@ paths:
         '400':
           description: Wrong input parameters
 
-/admin/addEventtoMatch:
-    post:
-      tags:
-      - Admin
-      summary: Add New event to a match.
-      description: The admin add's events to a match
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventDetails'
-        description: add a new event
-      responses:
-        '200':
-          description: A new event has been added.
-        '400':
-          description: failed to add an event.
+  /admin/addEventtoMatch:
+      post:
+        tags:
+        - Admin
+        summary: Add New event to a match.
+        description: The admin add's events to a match
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventDetails'
+          description: add a new event
+        responses:
+          '200':
+            description: A new event has been added.
+          '400':
+            description: failed to add an event.
           
   /players/preview/{player_id}:
     get:
@@ -388,7 +388,7 @@ paths:
                 $ref: '#/components/schemas/PlayerPreview'
         "404":
           description: Can't find player ID
-  /player/Details/{player_id}:
+  /players/Details/{player_id}:
     get:
       tags:
       - Player
