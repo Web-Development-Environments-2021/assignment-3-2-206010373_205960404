@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const DButils = require("../routes/utils/DButils");
+const users_utils = require("./utils/users_utils");
 
 
 
@@ -68,9 +69,9 @@ router.put("/addScoretoMatch", async (req, res, next) => {
             const AwayGoals = req.body.AwayGoals;
 
             await DButils.execQuery(
-                `update dbo.Matches set HomeGoals = '${HomeGoals}' , AwayGoals = '${AwayGoals}' where MatchID = '${MatchId}'`,
-                removeAsFavorite("FavoriteMatches", "match_id", user_id, MatchId)
+                `update dbo.Matches set HomeGoals = '${HomeGoals}' , AwayGoals = '${AwayGoals}' where MatchID = '${MatchId}'`    
             );
+            await users_utils.removeAsFavorite("FavoriteMatches", "match_id", user_id, MatchId);
             res.status(201).send("score has been added to match");
         }
     } catch (error) {
