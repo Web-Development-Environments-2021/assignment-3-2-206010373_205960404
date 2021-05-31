@@ -87,6 +87,38 @@ async function getPlayerDetails(player_id) {
     weight: Player.data.data.weight,
   }
 }
+
+
+async function getPlayerPreviewDetails(player_id) {
+  const Player = await axios.get(
+    `https://soccer.sportmonks.com/api/v2.0/players/${player_id}`,
+    {
+      params: {
+        api_token: process.env.api_token,
+      },
+    }
+  );
+
+  const Team = await axios.get(
+    `https://soccer.sportmonks.com/api/v2.0/teams/${Player.data.data.team_id}`,
+    {
+      params: {
+        api_token: process.env.api_token,
+      },
+    }
+  );
+
+  return{
+    playerPreview: {
+        player_id : Player.data.data.player_id,
+        name: Player.data.data.fullname,
+        image: Player.data.data.image_path,
+        position: Player.data.data.position_id,
+        team_name: Team.data.data.name,
+    },
+}
+}
 exports.getPlayersByTeam = getPlayersByTeam;
 exports.getPlayersInfo = getPlayersInfo;
 exports.getPlayerDetails = getPlayerDetails;
+exports.getPlayerPreviewDetails = getPlayerPreviewDetails;

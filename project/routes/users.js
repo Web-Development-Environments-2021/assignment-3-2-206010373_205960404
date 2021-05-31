@@ -3,6 +3,9 @@ var router = express.Router();
 const DButils = require("./utils/DButils");
 const users_utils = require("./utils/users_utils");
 const players_utils = require("./utils/players_utils");
+const matches_utils = require("./utils/matches_utils");
+
+
 
 /**
  * Authenticate all incoming requests by middleware
@@ -100,10 +103,10 @@ router.get("/favoriteMatches", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     let favorite_matchs = {};
-    const match_ids = await users_utils.getFavorites("FavoriteMatches", user_id);
+    const match_ids = await users_utils.getFavorites("FavoriteMatches", user_id, "match_id");
     let match_ids_array = [];
     match_ids.map((element) => match_ids_array.push(element.match_id)); //extracting the matchs ids into array
-    const results = await match_utils.getPlayersInfo(match_ids_array);
+    const results = await matches_utils.getMatchesInfo(match_ids_array);
     res.status(200).send(results);
   } catch (error) {
     next(error);
