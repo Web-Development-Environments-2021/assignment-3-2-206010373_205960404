@@ -167,7 +167,7 @@ paths:
             schema:
               type: object
               properties:
-                player_id:
+                team_id:
                   type: string
                   description: team's id which the user saved
                   example: 85
@@ -187,7 +187,7 @@ paths:
             schema:
               type: object
               properties:
-                player_id:
+                team_id:
                   type: string
                   description: team's id which the user saved
                   example: 85
@@ -225,7 +225,7 @@ paths:
             schema:
               type: object
               properties:
-                player_id:
+                match_id:
                   type: string
                   description: match's id which the user saved
                   example: 85
@@ -245,7 +245,7 @@ paths:
             schema:
               type: object
               properties:
-                player_id:
+                match_id:
                   type: string
                   description: match's id which the user saved
                   example: 85

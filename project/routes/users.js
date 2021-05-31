@@ -24,6 +24,7 @@ router.use(async function (req, res, next) {
   }
 });
 
+//________________________fav players ___________________________________
 /**
  * This path gets body with playerId and save this player in the favorites list of the logged-in user
  */
@@ -68,6 +69,107 @@ router.get("/favoritePlayers", async (req, res, next) => {
     
     const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","player_id", user_id ,player_id_deleted);
     res.status(200).send("The player was successfully deleted as favorite");
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+//________________________fav Matches ___________________________________
+/**
+ * This path gets body with matchId and save this match in the favorites list of the logged-in user
+ */
+ router.post("/favoriteMatches", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const match_id = req.body.match_id;
+    console.log(user_id);
+    console.log(match_id);
+
+    await users_utils.markAsFavorite("FavoriteMatches", user_id, match_id);
+    res.status(201).send("The match successfully saved as favorite");
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path returns the favorites matchs that were saved by the logged-in user
+ */
+router.get("/favoriteMatches", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    let favorite_matchs = {};
+    const match_ids = await users_utils.getFavorites("FavoriteMatches", user_id);
+    let match_ids_array = [];
+    match_ids.map((element) => match_ids_array.push(element.match_id)); //extracting the matchs ids into array
+    const results = await match_utils.getPlayersInfo(match_ids_array);
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path delete the favorite match that was saved by the logged-in user
+ */
+ router.delete("/favoriteMatches", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const match_id_deleted = req.body.match_id;
+    
+    const match_ids = await users_utils.removeAsFavorite("FavoriteMatches","match_id", user_id ,match_id_deleted);
+    res.status(200).send("The match was successfully deleted as favorite");
+  } catch (error) {
+    next(error);
+  }
+});
+
+//_______________________fav Teams ___________________________________
+/**
+ * This path gets body with teamId and save this team in the favorites list of the logged-in user
+ */
+ router.post("/favoriteTeams", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const team_id = req.body.team_id;
+    console.log(user_id);
+    console.log(team_id);
+
+    await users_utils.markAsFavorite("FavoriteTeams", user_id, team_id);
+    res.status(201).send("The team successfully saved as favorite");
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path returns the favorites teams that were saved by the logged-in user
+ */
+router.get("/favoriteTeams", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    let favorite_teams = {};
+    const team_ids = await users_utils.getFavorites("FavoriteTeams", user_id);
+    let team_ids_array = [];
+    team_ids.map((element) => team_ids_array.push(element.team_id)); //extracting the teams ids into array
+    const results = await team_utils.getPlayersInfo(team_ids_array);
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path delete the favorite team that was saved by the logged-in user
+ */
+ router.delete("/favoriteTeams", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const team_id_deleted = req.body.team_id;
+    
+    const team_ids = await users_utils.removeAsFavorite("FavoriteTeams","team_id", user_id ,team_id_deleted);
+    res.status(200).send("The team was successfully deleted as favorite");
   } catch (error) {
     next(error);
   }

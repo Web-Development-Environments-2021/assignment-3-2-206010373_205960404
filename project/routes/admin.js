@@ -68,7 +68,8 @@ router.put("/addScoretoMatch", async (req, res, next) => {
             const AwayGoals = req.body.AwayGoals;
 
             await DButils.execQuery(
-                `update dbo.Matches set HomeGoals = '${HomeGoals}' , AwayGoals = '${AwayGoals}' where MatchID = '${MatchId}'`
+                `update dbo.Matches set HomeGoals = '${HomeGoals}' , AwayGoals = '${AwayGoals}' where MatchID = '${MatchId}'`,
+                removeAsFavorite("FavoriteMatches", "match_id", user_id, MatchId)
             );
             res.status(201).send("score has been added to match");
         }
