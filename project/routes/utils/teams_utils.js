@@ -1,7 +1,6 @@
 const axios = require("axios");
 const api_domain = "https://soccer.sportmonks.com/api/v2.0";
 const LEAGUE_ID = 271;
-const SEASON_ID = 17328;
 
 async function getTeamName(teamId) {
     const team = await axios.get(`${api_domain}/teams/${teamId}`,
@@ -15,6 +14,22 @@ async function getTeamName(teamId) {
         teamName : team.data.data.name
     }
 }
+
+async function getTeamCoachName(teamId) {
+  const team = await axios.get(`${api_domain}/teams/${teamId}`,
+    {
+      params: {
+        include: "coach",
+        api_token: process.env.api_token,
+      },
+    }
+  );
+  console.log(team.data.data.coach.fullname);
+  return{
+      teamCoachName : team.data.data.coach.fullname
+  }
+}
+
 
 async function getTeamLogo(teamId) {
   const team = await axios.get(`${api_domain}/teams/${teamId}`,
@@ -38,23 +53,18 @@ async function getTeamforfavorite(teamId) {
   }
 }
 
-async function getTeamCoachName(teamId) {
-  const team = await axios.get(`${api_domain}/teams/${teamId}`,
-    {
-      params: {
-        include: "coach",
-        api_token: process.env.api_token,
-      },
-    }
+async function getTeamsFavorites(teams_ids_list) {
+  let promises = [];
+  teams_ids_list.map((id) =>
+    promises.push(getTeamforfavorite(id)
+    )
   );
-  console.log(team.data.data.coach.fullname);
-  return{
-      teamCoachName : team.data.data.coach.fullname
-  }
+  let teams_info = await Promise.all(promises);
+  return teams_info;
 }
 
 
-//search 
+//search 8
 async function getTeamsByName(name) {
   let teams_list = [];
   const teams = await axios.get(`${api_domain}/teams/search/${name}`, {
@@ -68,18 +78,8 @@ async function getTeamsByName(name) {
   return teams_list;
 }
 
-async function getTeamsFavorites(teams_ids_list) {
-  let promises = [];
-  teams_ids_list.map((id) =>
-    promises.push(getTeamforfavorite(id)
-    )
-  );
-  let teams_info = await Promise.all(promises);
-  return teams_info;
-}
-
 
 exports.getTeamName = getTeamName;
 exports.getTeamCoachName = getTeamCoachName;
-exports.getTeamsByName = getTeamsByName;
 exports.getTeamsFavorites = getTeamsFavorites;
+exports.getTeamsByName = getTeamsByName;
