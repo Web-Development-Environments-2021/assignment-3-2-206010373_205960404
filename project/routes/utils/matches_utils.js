@@ -32,7 +32,40 @@ async function getMatchesInfo(players_ids_list) {
     let matches_info = await Promise.all(promises);
     return matches_info;
   }
+  
 
+  async function getTeamsPastMatches(teamId) {
+    try {
+        const games = (
+            await DButils.execQuery(
+            `SELECT * FROM dbo.Matches WHERE HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}'`
+            )
+        );    
+        const promises = games.map(async (game) => {
+            return await extractRelevantPastGameData(game);
+        });
+        return Promise.all(promises);
+        } catch (error) {
+        throw new Error(error);
+    }
+}
+
+async function getTeamsFutureMatches(teamId) {
+  try {
+      const games = (
+          await DButils.execQuery(
+              `SELECT * FROM dbo.Matches WHERE HomeGoals = 'NULL' AND AwayGoals = 'NULL' AND (HomeTeamID = '${teamId}' OR AwayTeamID = '${teamId}'`
+          )
+      );
+
+      return games.map((game_info) => { 
+          return extractRelevantFutureGameData(game_info); 
+      });
+
+      } catch (error) {
+      throw new Error(error);
+  }
+}
 
 exports.getPreviewMatch = getPreviewMatch;
 exports.getDetailsFinishMatch = getDetailsFinishMatch;
