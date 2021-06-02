@@ -464,14 +464,14 @@ components:
           minLength: 3
           maxLength: 8
           description: username conatins letters only
-          example: naorbe
+          example: admin
         password:
           type: string
           minLength: 5
           maxLength: 10
           format: password
           description: password conatins at least one number and one special char
-          example: naor@55
+          example: admin
     League:
       type: object
       properties:
@@ -593,6 +593,7 @@ components:
         date:
           type: string
           #format: date
+          example: "2021-12-12"
         hour:
           type: string
           example: "15:30"
@@ -609,14 +610,14 @@ components:
           type: string
           example: Final
         refereeName:
-        type: string
-        example: Dvir Rainisch
+          type: string
+          example: Dvir Rainisch
         homeTeamID:
           type: integer
-          example: 12345
+          example: 85
         awayTeamID:
           type: integer
-          example: 12345
+          example: 86
     Match:
       type: object
       properties:

@@ -23,7 +23,7 @@ router.use(async function (req, res, next) {
 router.post("/addMatch", async (req, res, next) => {
   try {
       const user_id = req.session.user_id;
-      if (user_id != 3) { //not admin 
+      if (user_id == 3) { //not admin 
           res.status(403).send("The user doesn't have Permissions to add games")
       }
       else {
@@ -42,13 +42,15 @@ router.post("/addMatch", async (req, res, next) => {
 router.post("/addPreviewMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id != 3) { //not admin 
+        if (user_id == 3) { //not admin 
             res.status(403).send("The user doesn't have Permissions to add a match")
         }
         else {
+            console.log(req.body);
+            console.log(req.body.seasonName);
             await DButils.execQuery(
                 `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, RefereeName, HomeTeamID, AwayTeamID) VALUES 
-                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.previewMatch.seasonName}','${req.body.previewMatch.stageName}','${req.body.previewMatch.homeTeamID}','${req.body.previewMatch.awayTeamID}','${req.body.refereeName}','${req.body.homeTeamID}','${req.body.awayTeamID}')`
+                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.refereeName}','${req.body.homeTeamID}','${req.body.awayTeamID}')`
                 );
             res.status(201).send("match that was not played was added succesfully");
         }
@@ -60,7 +62,7 @@ router.post("/addPreviewMatch", async (req, res, next) => {
 router.put("/addScoretoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id != 3) {
+        if (user_id == 3) {
             res.status(403).send("The user doesn't have Permissions to add a match score")
         }
         else {
@@ -82,7 +84,7 @@ router.put("/addScoretoMatch", async (req, res, next) => {
 router.post("/addEventtoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id != 3) {
+        if (user_id == 3) {
             res.status(403).send("The user doesn't have Permissions to add a match Event")
         }
         else {

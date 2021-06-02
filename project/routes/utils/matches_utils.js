@@ -33,6 +33,22 @@ async function getMatchesInfo(players_ids_list) {
     return matches_info;
   }
   
+async function getNextGameDetails(){
+    let matches = await DButils.execQuery(`SELECT * FROM dbo.matches WHERE HomeGoals IS NOT NULL`); 
+    if(matches.length==0){
+        return null;
+    }
+
+
+    let nextGame = matches[0];
+    for(let i =1;i<matches.length;i++){
+        if(matches[i].MatchDate < nextGame.MatchDate){
+            nextGame = matches[i];
+        }
+    }
+
+    return matchPrev 
+}
 
   async function getTeamsPastMatches(teamId) {
     try {
