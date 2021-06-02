@@ -4,6 +4,7 @@ const DButils = require("./utils/DButils");
 const users_utils = require("./utils/users_utils");
 const players_utils = require("./utils/players_utils");
 const matches_utils = require("./utils/matches_utils");
+const teams_utils = require("./utils/teams_utils");
 
 
 
@@ -41,7 +42,7 @@ router.post("/favoritePlayers", async (req, res, next) => {
     await users_utils.markAsFavorite("FavoritePlayers", user_id, player_id);
     res.status(201).send("The player successfully saved as favorite");
   } catch (error) {
-    next(error);
+    res.status(400).send("The player allready a favorite player");
   }
 });
 
@@ -52,7 +53,7 @@ router.get("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     let favorite_players = {};
-    const player_ids = await users_utils.getFavorites("FavoritePlayers", user_id);
+    const player_ids = await users_utils.getFavorites("FavoritePlayers", user_id,"player_id");
     let player_ids_array = [];
     player_ids.map((element) => player_ids_array.push(element.player_id)); //extracting the players ids into array
     const results = await players_utils.getPlayersInfo(player_ids_array);
@@ -86,13 +87,11 @@ router.get("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const match_id = req.body.match_id;
-    console.log(user_id);
-    console.log(match_id);
 
     await users_utils.markAsFavorite("FavoriteMatches", user_id, match_id);
     res.status(201).send("The match successfully saved as favorite");
   } catch (error) {
-    next(error);
+    res.status(400).send("The match allready a favorite match");
   }
 });
 
@@ -142,7 +141,7 @@ router.get("/favoriteMatches", async (req, res, next) => {
     await users_utils.markAsFavorite("FavoriteTeams", user_id, team_id);
     res.status(201).send("The team successfully saved as favorite");
   } catch (error) {
-    next(error);
+    res.status(400).send("The team allready a favorite team");
   }
 });
 
@@ -153,10 +152,10 @@ router.get("/favoriteTeams", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     let favorite_teams = {};
-    const team_ids = await users_utils.getFavorites("FavoriteTeams", user_id);
+    const team_ids = await users_utils.getFavorites("FavoriteTeams", user_id, "team_id");
     let team_ids_array = [];
     team_ids.map((element) => team_ids_array.push(element.team_id)); //extracting the teams ids into array
-    const results = await team_utils.getPlayersInfo(team_ids_array);
+    const results = await teams_utils.getPlayersInfo(team_ids_array);
     res.status(200).send(results);
   } catch (error) {
     next(error);
