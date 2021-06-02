@@ -155,7 +155,7 @@ router.get("/favoriteTeams", async (req, res, next) => {
     const team_ids = await users_utils.getFavorites("FavoriteTeams", user_id, "team_id");
     let team_ids_array = [];
     team_ids.map((element) => team_ids_array.push(element.team_id)); //extracting the teams ids into array
-    const results = await teams_utils.getPlayersInfo(team_ids_array); // todo liad function
+    const results = await teams_utils.getTeamsFavorites(team_ids_array); // todo liad function
     res.status(200).send(results);
   } catch (error) {
     next(error);
