@@ -17,8 +17,6 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
     const matches = await teams_utils.getTeamMatchesByName(
       teamName
     );
-
-
     //we should keep implementing team page.....
     //console.log(team_details);
     res.send(team_details);
@@ -27,4 +25,32 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
   }
 });
 
+router.get("/FutureMatches", async (req, res, next) => {
+  try {
+    
+    const matches = await matches_utils.getTeamsFutureMatches();
+    if (matches == null) {
+      res.status(204).send('There are no future matches');
+    }
+    res.status(200).send(matches);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/PastMatches", async (req, res, next) => {
+  try {
+    
+    const matches = await matches_utils.getTeamsPastMatches();
+    
+    if (matches == null) {
+      res.status(204).send('There are no past matches');
+    }
+
+    res.status(200).send(matches);
+
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

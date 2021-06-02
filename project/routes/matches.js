@@ -16,6 +16,4 @@ router.get("/nextLeagueMatch", async (req, res, next) => {
     }
 });
 
-
-
 module.exports = router;
