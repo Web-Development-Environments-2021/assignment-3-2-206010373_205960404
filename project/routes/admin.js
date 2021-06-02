@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const DButils = require("../routes/utils/DButils");
 const users_utils = require("./utils/users_utils");
+const admin_utils = require("./utils/admin_utils");
 
 
 
@@ -23,7 +24,8 @@ router.use(async function (req, res, next) {
 router.post("/addMatch", async (req, res, next) => {
   try {
       const user_id = req.session.user_id;
-      if (user_id == 3) { //not admin 
+      const adminCheck = await admin_utils.ifisAdmin(user_id);
+      if (!adminCheck) { //not admin 
           res.status(403).send("The user doesn't have Permissions to add games")
       }
       else {
@@ -42,7 +44,10 @@ router.post("/addMatch", async (req, res, next) => {
 router.post("/addPreviewMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id == 3) { //not admin 
+        console.log(user_id);
+        const adminCheck = await admin_utils.ifisAdmin(user_id);
+        console.log(adminCheck);
+        if (!adminCheck) { //not admin 
             res.status(403).send("The user doesn't have Permissions to add a match")
         }
         else {
@@ -62,7 +67,8 @@ router.post("/addPreviewMatch", async (req, res, next) => {
 router.put("/addScoretoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id == 3) {
+        const adminCheck = await admin_utils.ifisAdmin(user_id);
+        if (!adminCheck) {
             res.status(403).send("The user doesn't have Permissions to add a match score")
         }
         else {
@@ -84,7 +90,8 @@ router.put("/addScoretoMatch", async (req, res, next) => {
 router.post("/addEventtoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
-        if (user_id == 3) {
+        const adminCheck = await admin_utils.ifisAdmin(user_id);
+        if (!adminCheck) {
             res.status(403).send("The user doesn't have Permissions to add a match Event")
         }
         else {
