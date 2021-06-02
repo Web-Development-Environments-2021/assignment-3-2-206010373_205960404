@@ -5,13 +5,19 @@ const teams_utils = require("./utils/teams_utils");
 const players_utils = require("./utils/players_utils");
 
 router.get("/teamFullDetails/:teamId", async (req, res, next) => {
+  let team_players = [];
   try {
-    const team_details = await players_utils.getPlayersByTeam(
+    team_players = await players_utils.getPlayersByTeam(
       req.params.teamId
     );
     const team_coach = await teams_utils.getTeamCoachName(
       req.params.teamId
     );
+
+    const matches = await teams_utils.getTeamMatchesByName(
+      teamName
+    );
+
 
     //we should keep implementing team page.....
     //console.log(team_details);
