@@ -608,6 +608,9 @@ components:
         stageName:
           type: string
           example: Final
+        refereeName:
+        type: string
+        example: Dvir Rainisch
         homeTeamID:
           type: integer
           example: 12345
@@ -619,9 +622,6 @@ components:
       properties:
         previewMatch:
           $ref: '#/components/schemas/PreviewMatch'
-        refereeName:
-          type: string
-          example: Dvir Rainisch
         homeGoals:
           type: integer
           example: 3

@@ -9,8 +9,12 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
     const team_details = await players_utils.getPlayersByTeam(
       req.params.teamId
     );
+    const team_coach = await teams_utils.getTeamCoachName(
+      req.params.teamId
+    );
+
     //we should keep implementing team page.....
-    console.log(team_details);
+    //console.log(team_details);
     res.send(team_details);
   } catch (error) {
     next(error);

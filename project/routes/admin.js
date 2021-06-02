@@ -29,7 +29,7 @@ router.post("/addMatch", async (req, res, next) => {
       else {
           await DButils.execQuery(
            `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID, RefereeName, HomeGoals, AwayGoals) VALUES 
-              ('${req.body.previewMatch.date}','${req.body.previewMatch.hour}', '${req.body.previewMatch.stadium}','${req.body.previewMatch.superligaName}','${req.body.previewMatch.seasonName}','${req.body.previewMatch.stageName}','${req.body.previewMatch.homeTeamID}','${req.body.previewMatch.awayTeamID}','${req.body.refereeName}','${req.body.homeGoals}','${req.body.awayGoals}')`
+              ('${req.body.previewMatch.date}','${req.body.previewMatch.hour}', '${req.body.previewMatch.stadium}','${req.body.previewMatch.superligaName}','${req.body.previewMatch.seasonName}','${req.body.previewMatch.stageName}','${req.body.previewMatch.homeTeamID}','${req.body.previewMatch.awayTeamID}','${req.body.previewMatch.refereeName}','${req.body.homeGoals}','${req.body.awayGoals}')`
           );
           res.status(201).send("match that was played has been added succesfully");
       }
@@ -47,8 +47,8 @@ router.post("/addPreviewMatch", async (req, res, next) => {
         }
         else {
             await DButils.execQuery(
-                `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, HomeTeamID, AwayTeamID) VALUES 
-                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.homeTeamID}','${req.body.awayTeamID}')`
+                `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, RefereeName, HomeTeamID, AwayTeamID) VALUES 
+                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.previewMatch.seasonName}','${req.body.previewMatch.stageName}','${req.body.previewMatch.homeTeamID}','${req.body.previewMatch.awayTeamID}','${req.body.refereeName}','${req.body.homeTeamID}','${req.body.awayTeamID}')`
                 );
             res.status(201).send("match that was not played was added succesfully");
         }
