@@ -52,9 +52,9 @@ async function getNextGameDetails(){
 
   async function getTeamsPastMatches(teamId) {
     try {
-        const games = (
+        const matches = (
             await DButils.execQuery(
-            `SELECT * FROM dbo.Matches WHERE HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}'`
+            `SELECT * FROM dbo.Matches WHERE (HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}') AND HomeGoals IS NULL AND AwayGoals IS NULL`
             )
         );    
         const promises = games.map(async (game) => {
@@ -70,7 +70,7 @@ async function getTeamsFutureMatches(teamId) {
   try {
       const games = (
           await DButils.execQuery(
-              `SELECT * FROM dbo.Matches WHERE HomeGoals = 'NULL' AND AwayGoals = 'NULL' AND (HomeTeamID = '${teamId}' OR AwayTeamID = '${teamId}'`
+              `SELECT * FROM dbo.Matches WHERE HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL AND (HomeTeamID = '${teamId}' OR AwayTeamID = '${teamId}'`
           )
       );
 
@@ -86,3 +86,7 @@ async function getTeamsFutureMatches(teamId) {
 exports.getPreviewMatch = getPreviewMatch;
 exports.getDetailsFinishMatch = getDetailsFinishMatch;
 exports.getMatchesInfo = getMatchesInfo;
+exports.getNextGameDetails = getNextGameDetails;
+exports.getTeamsPastMatches = getTeamsPastMatches;
+exports.getTeamsFutureMatches = getTeamsFutureMatches;
+
