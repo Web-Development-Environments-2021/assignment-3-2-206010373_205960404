@@ -3,22 +3,26 @@ var router = express.Router();
 const DButils = require("./utils/DButils");
 const teams_utils = require("./utils/teams_utils");
 const players_utils = require("./utils/players_utils");
+const matches_utils = require("./utils/matches_utils");
+
 
 router.get("/teamFullDetails/:teamId", async (req, res, next) => {
   let team_players = [];
   try {
-    team_players = await players_utils.getPlayersByTeam(req.params.teamId);
-    const team_name = await teams_utils.getTeamName(req.params.teamId);
-    const team_coach = await teams_utils.getTeamCoachName(req.params.teamId);
-    const team_logo = await teams_utils.getTeamLogo(teamName);
-    //we should keep implementing team page.....
+    //team_players = await players_utils.getPlayersByTeam(req.params.teamId);
+    const teamDetails = await teams_utils.getTeamDetails(req.params.teamId);
+    const pastMatches = await matches_utils.getTeamsPastMatches(req.params.teamId);
+    const futureMatches = await matches_utils.getTeamsFutureMatches(req.params.teamId);
+
 
     res.send({
       id: req.params.teamId,
-      name: team_name,
-      coach: team_coach,
-      logoPath: team_logo,
-      players: team_players,
+      name: teamDetails.teamName,
+      coach: teamDetails.teamCoachName,
+      logoPath: teamDetails.logo,
+      //players: team_players,
+      pastMatches : pastMatches,
+      futureMatches : futureMatches 
     });
   } catch (error) {
     next(error);
@@ -57,14 +61,15 @@ router.get("/TeamsPastMatches", async (req, res, next) => {
 
 router.get("/SearchTeam", async (req, res, next) => {
   try {
+    console.log("#############");
+    console.log(req.params);
+    const teamSearch = await teams_utils.getTeamsByName(req.params.teamName);
     
-    const matches = await teams_utils.getTeamsByName();
-    
-    if (matches == null) {
-      res.status(204).send('There are no past matches');
+    if (teamSearch == null) {
+      res.status(204).send('Team not founded');
     }
 
-    res.status(200).send(matches);
+    res.status(200).send(teamSearch);
 
   } catch (error) {
     next(error);

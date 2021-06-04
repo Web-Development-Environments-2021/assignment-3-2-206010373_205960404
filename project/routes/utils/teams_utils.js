@@ -15,7 +15,7 @@ async function getTeamName(teamId) {
     }
 }
 
-async function getTeamCoachName(teamId) {
+async function getTeamDetails(teamId) {
   const team = await axios.get(`${api_domain}/teams/${teamId}`,
     {
       params: {
@@ -24,9 +24,15 @@ async function getTeamCoachName(teamId) {
       },
     }
   );
+  console.log("#####################");
+  console.log(team.data.data);
+  console.log("#####################");
   console.log(team.data.data.coach.fullname);
+  console.log("#####################");
   return{
-      teamCoachName : team.data.data.coach.fullname
+      teamCoachName : team.data.data.coach.data.fullname,
+      teamName : team.data.data.name,
+      logo : team.data.data.logo_path
   }
 }
 
@@ -73,13 +79,15 @@ async function getTeamsByName(name) {
     },
   });
   teams.data.data.forEach(team => {
-      teams_list.push({"team_name": team.name, "logo_path": team.logo_path})  
+      teams_list.push({"teamName": team.name, "teamLogo": team.logo_path})  
   });
   return teams_list;
 }
 
 
 exports.getTeamName = getTeamName;
-exports.getTeamCoachName = getTeamCoachName;
+exports.getTeamDetails = getTeamDetails;
 exports.getTeamsFavorites = getTeamsFavorites;
 exports.getTeamsByName = getTeamsByName;
+exports.getTeamLogo = getTeamLogo;
+

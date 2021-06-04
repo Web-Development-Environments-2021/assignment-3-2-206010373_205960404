@@ -66,7 +66,7 @@ paths:
   /league/getDetails:
     get:
       tags:
-        - League
+        - league
       summary: Return the details about the current league
       responses:
         "200":
@@ -211,7 +211,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/MatchPreview"
+                  $ref: "#/components/schemas/PreviewMatch"
         "401":
           description: user is not authorized
     post:
@@ -275,7 +275,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/Team"
         "404":
-          description: teamId is not exists
+          description: teamId doesn't exists
+  /teams/SearchTeam/{teamName}:
+    get:
+      summary: get search team by name
+      description: useful for team page
+      tags:
+        - Teams
+      parameters:
+        - in: path
+          name: teamName
+          description: team's name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: returned search of teams
+          content:
+            application/json:
+              type: array
+              items:
+                type: object
+                $ref: "#/components/schemas/TeamPreview"
+        "404":
+          description: team Name doesn't exists 
 
   /admin/addPreviewMatch:
     post:
@@ -547,6 +571,19 @@ components:
           items:
             type: object
             $ref: "#/components/schemas/PlayerPreview"
+    
+    TeamPreview:
+      type:
+      properties:
+        teamName:
+          type: string
+          description: team name
+          example: København
+        teamLogo:
+          pattern: URL
+          type: string
+          description: URL for the team's image
+          example: https://cdn.sportmonks.com/images//soccer/teams/21/85.png
 
   #from here ours
     EventInGame:

@@ -47,20 +47,22 @@ async function getNextGameDetails(){
         }
     }
 
-    return matchPrev 
+    return matchPrev;
 }
 
   async function getTeamsPastMatches(teamId) {
     try {
         const matches = (
             await DButils.execQuery(
-            `SELECT * FROM dbo.Matches WHERE (HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}') AND HomeGoals IS NULL AND AwayGoals IS NULL`
+            `SELECT * FROM dbo.Matches WHERE (HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}') AND HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL`
             )
         );    
-        const promises = games.map(async (game) => {
-            return await extractRelevantPastGameData(game);
-        });
-        return Promise.all(promises);
+        console.log(matches);
+        return matches;
+        // const promises = matches.map(async (match) => {
+        //     return await extractRelevantPastGameData(match);
+        // });
+        // return Promise.all(promises);
         } catch (error) {
         throw new Error(error);
     }
@@ -68,15 +70,16 @@ async function getNextGameDetails(){
 
 async function getTeamsFutureMatches(teamId) {
   try {
-      const games = (
+      const fmatches = (
           await DButils.execQuery(
-              `SELECT * FROM dbo.Matches WHERE HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL AND (HomeTeamID = '${teamId}' OR AwayTeamID = '${teamId}'`
+              `SELECT * FROM dbo.Matches WHERE HomeGoals IS NULL AND AwayGoals IS NULL AND (HomeTeamID = '${teamId}' OR AwayTeamID = '${teamId}')`
           )
       );
-
-      return games.map((game_info) => { 
-          return extractRelevantFutureGameData(game_info); 
-      });
+      console.log(fmatches);
+      return fmatches;
+    //   return matches.map((match) => { 
+    //       return extractRelevantFutureGameData(match); 
+    //   });
 
       } catch (error) {
       throw new Error(error);
