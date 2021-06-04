@@ -85,7 +85,6 @@ paths:
         - Users
         - Players
       summary: Return the favorite players that were saved by user
-      parameters:
       responses:
         "200":
           description: data about the user's favorites players returned
@@ -144,7 +143,6 @@ paths:
         - Users
         - Teams
       summary: Return the favorite teams that were saved by user
-      parameters:
       responses:
         "200":
           description: data about the user's favorites Teams returned
@@ -202,7 +200,6 @@ paths:
         - Users
         - Matches
       summary: Return the favorite Matches that were saved by user
-      parameters:
       responses:
         "200":
           description: data about the user's favorites Matches returned
@@ -294,9 +291,7 @@ paths:
           description: returned search of teams
           content:
             application/json:
-              type: array
-              items:
-                type: object
+              schema:
                 $ref: "#/components/schemas/TeamPreview"
         "404":
           description: team Name doesn't exists 
@@ -313,7 +308,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PreviewMatch'
-        description:
+        description: add preview match
       responses:
         "201":
           description: Add New match to system Successfuly
@@ -332,7 +327,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Match'
-        description:
+        description: add match
       responses:
         "201":
           description:  a New match is added to the system Successfuly
@@ -352,7 +347,7 @@ paths:
               type: object
               properties:
                 MatchId:
-                  type: int
+                  type: integer
                   description: an id for a game the admin already added
                   example: 14
                 HomeGoals:
@@ -573,7 +568,7 @@ components:
             $ref: "#/components/schemas/PlayerPreview"
     
     TeamPreview:
-      type:
+      type: object
       properties:
         teamName:
           type: string
