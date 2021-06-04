@@ -59,7 +59,7 @@ router.get("/TeamsPastMatches", async (req, res, next) => {
 });
 
 
-router.get("/SearchTeam", async (req, res, next) => {
+router.get("/SearchTeam/:teamName", async (req, res, next) => {
   try {
     console.log("#############");
     console.log(req.params);
@@ -72,6 +72,7 @@ router.get("/SearchTeam", async (req, res, next) => {
     res.status(200).send(teamSearch);
 
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

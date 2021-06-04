@@ -292,7 +292,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TeamPreview"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamPreview"
         "404":
           description: team Name doesn't exists 
 
