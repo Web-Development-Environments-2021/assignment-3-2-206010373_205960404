@@ -45,6 +45,24 @@ function extractRelevantPlayerData(players_info) {
   });
 }
 
+function extractRelevantPlayerDataForSearch(players_info) {
+  return players_info.map((player_info) => {
+    const { fullname, image_path, position_id } = player_info;
+    var name;
+    if(player_info.team != null){
+      var { name } = player_info.team.data;
+    }
+    else{
+      var { name } = "No Team";
+    }
+    return {
+      name: fullname,
+      image: image_path,
+      position: position_id,
+      team_name: name,
+    };
+  });
+}
 async function getPlayersByTeam(team_id) {
   let player_ids_list = await getPlayerIdsByTeam(team_id);
   let players_info = await getPlayersInfo(player_ids_list);
@@ -121,15 +139,17 @@ async function getPlayerPreviewDetails(player_id) {
 
 //search copied check
 async function getplayersByName(name) {
+  //console.log(name);
   let players_list = [];
-  let players = await axios.get(`${api_domain}/players/search/${name}`, {
+  let players1 = await axios.get(`${api_domain}/players/search/${name}`, {
     params: {
       api_token: process.env.api_token,
       include: "team",
     },
   });
-  console.log(players);
-  return extractRelevantPlayerData(players);
+
+  //console.log(players1.data.data);
+  return await extractRelevantPlayerDataForSearch(players1.data.data);
 }
 
 
