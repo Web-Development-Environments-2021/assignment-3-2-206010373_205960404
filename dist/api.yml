@@ -458,7 +458,7 @@ paths:
         "404":
           description: team Name doesn't exists 
 
-  /FilterByPositionId/{playerName}/{positionId}:
+  /players/FilterByPositionId/{playerName}/{positionId}:
     get:
       summary: filter players by positionId
       description: filter
@@ -490,7 +490,7 @@ paths:
           description: Players with this positionId are not found. 
 
 
-  /FilterByTeamName/{playerName}/{teamName}:
+  /players/FilterByTeamName/{playerName}/{teamName}:
     get:
       summary: filter players by teamName
       description: filter

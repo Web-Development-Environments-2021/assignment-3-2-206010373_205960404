@@ -1,3 +1,4 @@
+const e = require("express");
 var express = require("express");
 var router = express.Router();
 const DButils = require("./utils/DButils");
@@ -30,7 +31,6 @@ router.get("/SearchPlayer/:playerName", async (req, res, next) => {
   try {
 
     const playerSearch = await players_utils.getplayersByName(req.params.playerName);
-    
     if (playerSearch.length == 0) {
       res.status(404).send('Players not founded');
     }
@@ -45,19 +45,21 @@ router.get("/SearchPlayer/:playerName", async (req, res, next) => {
 
 
 router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next) => {
-  console.log("**********************************");
-  console.log(req.params.playerName);
-  console.log("**********************************");
   let FilteredPositionPlayers = [];
   try {
     const playerSearch = await players_utils.getplayersByName(req.params.playerName);
-    for (i=0; i< playerSearch.length;i++)
+    if (playerSearch.length == 0) {
+      res.status(404).send('Players not founded');
+    }
+    else{
+    for (i=0; i < playerSearch.length;i++)
       {
         if(req.params.positionId == playerSearch[i].position){
           FilteredPositionPlayers.push(playerSearch[i]);
         }
       }
     res.send(FilteredPositionPlayers);
+    }
   } catch (error) {
     next(error);
   }
@@ -67,6 +69,10 @@ router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => 
   let FilteredTeamPlayers = [];
   try {
     const playerSearch = await players_utils.getplayersByName(req.params.playerName);
+    if (playerSearch.length == 0) {
+      res.status(404).send('Players not founded');
+    }
+    else{
     for (i=0; i< playerSearch.length;i++)
       {
         if(req.params.teamName == playerSearch[i].team_name){
@@ -74,6 +80,7 @@ router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => 
         }
       }
     res.send(FilteredTeamPlayers);
+    }
   } catch (error) {
     next(error);
   }
