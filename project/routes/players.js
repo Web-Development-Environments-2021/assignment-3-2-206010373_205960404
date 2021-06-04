@@ -3,6 +3,7 @@ var router = express.Router();
 const DButils = require("./utils/DButils");
 const players_utils = require("./utils/players_utils");
 console.log("######################");
+
 router.get("/Details/:player_id", async (req, res, next) => {
   try {
     const player_details = await players_utils.getPlayerDetails(
@@ -25,4 +26,20 @@ router.get("/preview/:player_id", async (req, res, next) => {
   }
 });
 
+router.get("/SearchPlayer/:playerName", async (req, res, next) => {
+  try {
+
+    const playerSearch = await players_utils.getplayersByName(req.params.playerName);
+    
+    if (playerSearch.length == 0) {
+      res.status(404).send('Players not founded');
+    }
+    else{
+    res.status(200).send(playerSearch);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 module.exports = router;

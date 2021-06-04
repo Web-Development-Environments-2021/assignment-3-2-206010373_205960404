@@ -61,8 +61,7 @@ router.get("/TeamsPastMatches", async (req, res, next) => {
 
 router.get("/SearchTeam/:teamName", async (req, res, next) => {
   try {
-    console.log("#############");
-    console.log(req.params);
+    
     const teamSearch = await teams_utils.getTeamsByName(req.params.teamName);
     
     if (teamSearch.length == 0) {

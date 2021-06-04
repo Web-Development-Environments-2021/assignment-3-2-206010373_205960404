@@ -388,7 +388,7 @@ paths:
   /players/preview/{player_id}:
     get:
       tags:
-      - Player
+      - Players
       summary: get a preview about a player by his ID
       parameters:
       - name: player_id
@@ -412,7 +412,7 @@ paths:
   /players/Details/{player_id}:
     get:
       tags:
-      - Player
+      - Players
       summary: get all Details about a player by his ID
       parameters:
       - name: player_id
@@ -433,6 +433,30 @@ paths:
                 $ref: '#/components/schemas/DetailsPlayer'
         "404":
           description: Can't find player ID
+  /players/SearchPlayer/{playerName}:
+    get:
+      summary: get search player by name
+      description: useful for player page
+      tags:
+        - Players
+      parameters:
+        - in: path
+          name: playerName
+          description: player's name
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: returned search of players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlayerPreview"
+        "404":
+          description: team Name doesn't exists 
 
 components:
   schemas:
