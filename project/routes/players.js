@@ -42,4 +42,41 @@ router.get("/SearchPlayer/:playerName", async (req, res, next) => {
     next(error);
   }
 });
+
+
+router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next) => {
+  console.log("**********************************");
+  console.log(req.params.playerName);
+  console.log("**********************************");
+  let FilteredPositionPlayers = [];
+  try {
+    const playerSearch = await players_utils.getplayersByName(req.params.playerName);
+    for (i=0; i< playerSearch.length;i++)
+      {
+        if(req.params.positionId == playerSearch[i].position){
+          FilteredPositionPlayers.push(playerSearch[i]);
+        }
+      }
+    res.send(FilteredPositionPlayers);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => {
+  let FilteredTeamPlayers = [];
+  try {
+    const playerSearch = await players_utils.getplayersByName(req.params.playerName);
+    for (i=0; i< playerSearch.length;i++)
+      {
+        if(req.params.teamName == playerSearch[i].team_name){
+          FilteredTeamPlayers.push(playerSearch[i]);
+        }
+      }
+    res.send(FilteredTeamPlayers);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

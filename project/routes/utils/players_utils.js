@@ -53,7 +53,7 @@ function extractRelevantPlayerDataForSearch(players_info) {
       var { name } = player_info.team.data;
     }
     else{
-      var { name } = "No Team";
+      var { name } = "The Player doesn't have a Team";
     }
     return {
       name: fullname,

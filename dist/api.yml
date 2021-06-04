@@ -458,6 +458,72 @@ paths:
         "404":
           description: team Name doesn't exists 
 
+  /FilterByPositionId/{playerName}/{positionId}:
+    get:
+      summary: filter players by positionId
+      description: filter
+      tags:
+        - Players
+      parameters:
+        - in: path
+          name: playerName
+          description: player's name
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: positionId
+          description: positionId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: returned filtered players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlayerPreview"
+        "404":
+          description: Players with this positionId are not found. 
+
+
+  /FilterByTeamName/{playerName}/{teamName}:
+    get:
+      summary: filter players by teamName
+      description: filter
+      tags:
+        - Players
+      parameters:
+        - in: path
+          name: playerName
+          description: player's name
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: teamName
+          description: teams's name
+          required: true
+          schema:
+            type: string
+        
+      responses:
+        "200":
+          description: returned filtered players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlayerPreview"
+        "404":
+          description: Players with this teamName are not found. 
+
+
+
 components:
   schemas:
     User:
