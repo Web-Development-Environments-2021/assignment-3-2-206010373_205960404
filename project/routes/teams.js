@@ -65,12 +65,12 @@ router.get("/SearchTeam/:teamName", async (req, res, next) => {
     console.log(req.params);
     const teamSearch = await teams_utils.getTeamsByName(req.params.teamName);
     
-    if (teamSearch == null) {
-      res.status(204).send('Team not founded');
+    if (teamSearch.length == 0) {
+      res.status(404).send('Team not founded');
     }
-
+    else{
     res.status(200).send(teamSearch);
-
+    }
   } catch (error) {
     console.log(error);
     next(error);
