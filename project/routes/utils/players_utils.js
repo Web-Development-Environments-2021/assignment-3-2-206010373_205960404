@@ -1,7 +1,9 @@
 const axios = require("axios");
 const api_domain = "https://soccer.sportmonks.com/api/v2.0";
-// const TEAM_ID = "85";
+const LEAGUE_ID = 271;
 
+
+/* this function returns the ids of all players in a chosen team*/
 async function getPlayerIdsByTeam(team_id) {
   let player_ids_list = [];
   const team = await axios.get(`${api_domain}/teams/${team_id}`, {
@@ -16,6 +18,7 @@ async function getPlayerIdsByTeam(team_id) {
   return player_ids_list;
 }
 
+/* this function returns relevant information on each player from the list*/
 async function getPlayersInfo(players_ids_list) {
   let promises = [];
   players_ids_list.map((id) =>
@@ -32,6 +35,7 @@ async function getPlayersInfo(players_ids_list) {
   return extractRelevantPlayerData(players_info);
 }
 
+/* helper function that returns the players data*/
 function extractRelevantPlayerData(players_info) {
   return players_info.map((player_info) => {
     const { fullname, image_path, position_id } = player_info.data.data;
@@ -45,24 +49,8 @@ function extractRelevantPlayerData(players_info) {
   });
 }
 
-function extractRelevantPlayerDataForSearch(players_info) {
-  return players_info.map((player_info) => {
-    const { fullname, image_path, position_id } = player_info;
-    var name;
-    if(player_info.team != null){
-      var { name } = player_info.team.data;
-    }
-    else{
-      var { name } = "The Player doesn't have a Team";
-    }
-    return {
-      name: fullname,
-      image: image_path,
-      position: position_id,
-      team_name: name,
-    };
-  });
-}
+
+/* this function returns relevant information of a player by his id*/
 async function getPlayersByTeam(team_id) {
   let player_ids_list = await getPlayerIdsByTeam(team_id);
   let players_info = await getPlayersInfo(player_ids_list);
@@ -70,6 +58,7 @@ async function getPlayersByTeam(team_id) {
 }
 
 
+/* this function takes all players relevant data from the API and returns it*/
 async function getPlayerDetails(player_id) {
   const Player = await axios.get(
     `https://soccer.sportmonks.com/api/v2.0/players/${player_id}`,
@@ -106,7 +95,7 @@ async function getPlayerDetails(player_id) {
   }
 }
 
-
+/* this function takes all players relevant data from the API and returns it*/
 async function getPlayerPreviewDetails(player_id) {
   const Player = await axios.get(
     `https://soccer.sportmonks.com/api/v2.0/players/${player_id}`,
@@ -136,22 +125,50 @@ async function getPlayerPreviewDetails(player_id) {
     },
 }
 }
-
-//search copied check
+/* this function returns relevant information on a player by his name*/
 async function getplayersByName(name) {
-  //console.log(name);
-  let players_list = [];
   let players1 = await axios.get(`${api_domain}/players/search/${name}`, {
     params: {
       api_token: process.env.api_token,
-      include: "team",
+      include: "team.league",
     },
   });
-
-  //console.log(players1.data.data);
-  return await extractRelevantPlayerDataForSearch(players1.data.data);
+  let PlayersSearchList = [];
+  for (i=0; i<players1.data.data.length;i++){
+    try{
+   
+      if(players1.data.data[i].team.data.league.data.id == LEAGUE_ID)
+      {
+        PlayersSearchList.push(players1.data.data[i]);
+      }
+    }
+  
+  catch (e){
+    continue;
+    }
+  }
+  return await extractRelevantPlayerDataForSearch(PlayersSearchList);
 }
 
+/* helper function that returns the players data*/
+function extractRelevantPlayerDataForSearch(players_info) {
+  return players_info.map((player_info) => {
+    const { fullname, image_path, position_id } = player_info;
+    var name;
+    if(player_info.team != null){
+      var { name } = player_info.team.data;
+    }
+    else{
+      var { name } = "The Player doesn't have a Team";
+    }
+    return {
+      name: fullname,
+      image: image_path,
+      position: position_id,
+      team_name: name,
+    };
+  });
+}
 
 exports.getPlayersByTeam = getPlayersByTeam;
 exports.getPlayersInfo = getPlayersInfo;

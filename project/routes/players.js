@@ -73,13 +73,13 @@ router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => 
       res.status(404).send('Players not founded');
     }
     else{
-    for (i=0; i< playerSearch.length;i++)
-      {
-        if(req.params.teamName == playerSearch[i].team_name){
-          FilteredTeamPlayers.push(playerSearch[i]);
+      for (i=0; i< playerSearch.length;i++)
+        {
+          if(req.params.teamName == playerSearch[i].team_name){
+            FilteredTeamPlayers.push(playerSearch[i]);
+          }
         }
-      }
-    res.send(FilteredTeamPlayers);
+      res.send(FilteredTeamPlayers);
     }
   } catch (error) {
     next(error);

@@ -2,6 +2,7 @@ const axios = require("axios");
 const LEAGUE_ID = 271;
 const DButils = require("./DButils");
 
+/* this function takes all league (superliga) relevant data from the API and returns it*/
 async function getLeagueDetails() {
   const league = await axios.get(
     `https://soccer.sportmonks.com/api/v2.0/leagues/${LEAGUE_ID}`,
@@ -12,9 +13,6 @@ async function getLeagueDetails() {
       },
     }
   );
-  console.log("##################");
-  console.log(league.data.data);
-  console.log("##################");
   if (league.data.data.current_stage_id == null){
     var stageName = "No Stage on that momennt";
   }

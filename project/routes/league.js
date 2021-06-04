@@ -4,7 +4,7 @@ const league_utils = require("./utils/league_utils");
 const users_utils = require("./utils/users_utils");
 const matches_utils = require("./utils/matches_utils");
 
-
+/* this pass returns LeagueDetails */
 router.get("/getDetails", async (req, res, next) => {
   try {
     ret_arr = []

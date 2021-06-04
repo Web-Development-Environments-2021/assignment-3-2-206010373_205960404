@@ -2,6 +2,7 @@ const axios = require("axios");
 const api_domain = "https://soccer.sportmonks.com/api/v2.0";
 const LEAGUE_ID = 271;
 
+/* this function gets team id and returns team name from  API */
 async function getTeamName(teamId) {
     const team = await axios.get(`${api_domain}/teams/${teamId}`,
       {
@@ -24,11 +25,7 @@ async function getTeamDetails(teamId) {
       },
     }
   );
-  console.log("#####################");
-  console.log(team.data.data);
-  console.log("#####################");
-  console.log(team.data.data.coach.fullname);
-  console.log("#####################");
+ 
   return{
       teamCoachName : team.data.data.coach.data.fullname,
       teamName : team.data.data.name,
@@ -75,15 +72,30 @@ async function getTeamsByName(name) {
   let teams_list = [];
   const teams = await axios.get(`${api_domain}/teams/search/${name}`, {
     params: {
+      include: "league",
       api_token: process.env.api_token,
     },
   });
+  let TeamsSearchList = [];
+  for(i=0;i<teams.data.data.length;i++)
+  {
+    try{
+      if(teams.data.data[i].league.data.id == LEAGUE_ID){
+        TeamsSearchList.push(players1.data.data[i]);
+
+      }
+  }
+  catch (e){
+    continue;
+  }
+  }
+  
+  
   teams.data.data.forEach(team => {
       teams_list.push({"teamName": team.name, "teamLogo": team.logo_path})  
   });
   return teams_list;
 }
-
 
 exports.getTeamName = getTeamName;
 exports.getTeamDetails = getTeamDetails;

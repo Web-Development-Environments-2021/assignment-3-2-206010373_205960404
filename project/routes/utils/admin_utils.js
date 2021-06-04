@@ -1,5 +1,6 @@
 const DButils = require("./DButils");
 
+/* function for Authentication - checks if the user exists in the admin table */
 async function ifisAdmin(user_id) {
     
     const exists = await DButils.execQuery(
