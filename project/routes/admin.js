@@ -79,12 +79,21 @@ router.put("/addScoretoMatch", async (req, res, next) => {
             const MatchId = req.body.MatchId;
             const HomeGoals = req.body.HomeGoals;
             const AwayGoals = req.body.AwayGoals;
-
+            const GameExists = (
+                await DButils.execQuery(
+                `SELECT * FROM dbo.Matches WHERE MatchID = '${MatchId}'`
+                )
+            ); 
+            if(GameExists.length == 0 ){
+                res.status(404).send("Can't add a Score to a match that doesn't exists")
+            }
+            else{
             await DButils.execQuery(
                 `update dbo.Matches set HomeGoals = '${HomeGoals}' , AwayGoals = '${AwayGoals}' where MatchID = '${MatchId}'`    
             );
             await users_utils.removeAsFavorite("FavoriteMatches", "match_id", user_id, MatchId);
             res.status(201).send("score has been added to match");
+            }
         }
     } catch (error) {
         next(error);
@@ -100,11 +109,21 @@ router.post("/addEventtoMatch", async (req, res, next) => {
             res.status(403).send("The user doesn't have Permissions to add a match Event")
         }
         else {
+            const MatchId = req.body.MatchId;
+            const GameExists = 
+                await DButils.execQuery(
+                `SELECT * FROM dbo.Matches WHERE MatchID = '${MatchId}'`
+                );
+            if(GameExists.length == 0 ){
+                res.status(404).send("Can't add Event to a match that doesn't exists");
+            }
+            else{
             await DButils.execQuery(
                 `INSERT INTO dbo.EventDetails (MatchId, Date, Hour, TimeMinuteInGame, EventInGame, PlayerName, Description) VALUES ('${req.body.MatchId}', '${req.body.Date}','${req.body.Hour}', '${req.body.TimeMinuteInGame}','${req.body.EventInGame}','${req.body.player_name}','${req.body.Description}')`
             );
             res.status(201).send("event has been added succesfully");
         }
+    }
     } catch (error) {
         next(error);
     }
