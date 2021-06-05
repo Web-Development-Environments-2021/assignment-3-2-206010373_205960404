@@ -5,7 +5,7 @@ const users_utils = require("./utils/users_utils");
 const admin_utils = require("./utils/admin_utils");
 
 
-
+/* this function finds the user that is in the system*/ 
 router.use(async function (req, res, next) {
   if (req.session && req.session.user_id) {
       DButils.execQuery("SELECT user_id FROM Users")
@@ -21,6 +21,8 @@ router.use(async function (req, res, next) {
   }
 });
 
+
+/* function that Allows the adimin to add Matches (history matches)*/ 
 router.post("/addMatch", async (req, res, next) => {
   try {
       const user_id = req.session.user_id;
@@ -41,6 +43,7 @@ router.post("/addMatch", async (req, res, next) => {
 });
 
 
+/* function that Allows the adimin to add Matches (preview matches)*/ 
 router.post("/addPreviewMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
@@ -64,6 +67,7 @@ router.post("/addPreviewMatch", async (req, res, next) => {
     }
   });
  
+  /* function that Allows the adimin to add Score to Matches */ 
 router.put("/addScoretoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;

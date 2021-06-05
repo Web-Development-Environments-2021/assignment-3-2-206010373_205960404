@@ -137,7 +137,7 @@ async function getplayersByName(name) {
   for (i=0; i<players1.data.data.length;i++){
     try{
    
-      if(players1.data.data[i].team.data.league.data.id == LEAGUE_ID)
+      if(players1.data.data[i].team.data.league.data.id == LEAGUE_ID  && players1.data.data[i].fullname.includes(name))
       {
         PlayersSearchList.push(players1.data.data[i]);
       }
