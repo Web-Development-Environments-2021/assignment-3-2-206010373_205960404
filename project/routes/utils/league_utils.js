@@ -14,7 +14,7 @@ async function getLeagueDetails() {
     }
   );
   if (league.data.data.current_stage_id == null){
-    var stageName = "No Stage on that momennt";
+    var stageName = "No Stage on the momennt";
   }
   else{
     const stage = await axios.get(
