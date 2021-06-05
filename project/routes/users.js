@@ -12,7 +12,6 @@ const teams_utils = require("./utils/teams_utils");
  * Authenticate all incoming requests by middleware
  */
 router.use(async function (req, res, next) {
-  //console.log(req.session.user_id);
   if (req.session && req.session.user_id) {
     
     DButils.execQuery("SELECT user_id FROM Users")
@@ -29,9 +28,8 @@ router.use(async function (req, res, next) {
 });
 
 //________________________fav players ___________________________________
-/**
- * This path gets body with playerId and save this player in the favorites list of the logged-in user
- */
+
+ /* This path gets body with playerId and saves this player in the favorites list of the logged-in user */
 router.post("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -46,9 +44,7 @@ router.post("/favoritePlayers", async (req, res, next) => {
   }
 });
 
-/**
- * This path returns the favorites players that were saved by the logged-in user
- */
+/* This path returns the favorites players that were saved by the logged-in user*/
 router.get("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -63,9 +59,7 @@ router.get("/favoritePlayers", async (req, res, next) => {
   }
 });
 
-/**
- * This path delete the favorite player that was saved by the logged-in user
- */
+/* This path delete the favorite player that was saved by the logged-in user*/
  router.delete("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -80,9 +74,7 @@ router.get("/favoritePlayers", async (req, res, next) => {
 
 
 //________________________fav Matches ___________________________________
-/**
- * This path gets body with matchId and save this match in the favorites list of the logged-in user
- */
+/*This path gets body with matchId and save this match in the favorites list of the logged-in user*/
  router.post("/favoriteMatches", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -95,9 +87,7 @@ router.get("/favoritePlayers", async (req, res, next) => {
   }
 });
 
-/**
- * This path returns the favorites matchs that were saved by the logged-in user
- */
+/* This path returns the favorites matchs that were saved by the logged-in user*/
 router.get("/favoriteMatches", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -112,9 +102,7 @@ router.get("/favoriteMatches", async (req, res, next) => {
   }
 });
 
-/**
- * This path delete the favorite match that was saved by the logged-in user
- */
+/* This path delete the favorite match that was saved by the logged-in user*/
  router.delete("/favoriteMatches", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -128,9 +116,7 @@ router.get("/favoriteMatches", async (req, res, next) => {
 });
 
 //_______________________fav Teams ___________________________________
-/**
- * This path gets body with teamId and save this team in the favorites list of the logged-in user
- */
+/* This path gets body with teamId and save this team in the favorites list of the logged-in user*/
  router.post("/favoriteTeams", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -145,9 +131,7 @@ router.get("/favoriteMatches", async (req, res, next) => {
   }
 });
 
-/**
- * This path returns the favorites teams that were saved by the logged-in user
- */
+/*This path returns the favorites teams that were saved by the logged-in user*/
 router.get("/favoriteTeams", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -162,9 +146,7 @@ router.get("/favoriteTeams", async (req, res, next) => {
   }
 });
 
-/**
- * This path delete the favorite team that was saved by the logged-in user
- */
+/*This path delete the favorite team that was saved by the logged-in user*/
  router.delete("/favoriteTeams", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
@@ -176,5 +158,4 @@ router.get("/favoriteTeams", async (req, res, next) => {
     next(error);
   }
 });
-
 module.exports = router;

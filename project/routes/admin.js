@@ -91,6 +91,7 @@ router.put("/addScoretoMatch", async (req, res, next) => {
     }
 });
 
+ /* function that Allows the adimin to add Events to Matches */ 
 router.post("/addEventtoMatch", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;

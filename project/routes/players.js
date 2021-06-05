@@ -3,8 +3,9 @@ var express = require("express");
 var router = express.Router();
 const DButils = require("./utils/DButils");
 const players_utils = require("./utils/players_utils");
-console.log("######################");
 
+
+/* this path returns Details about a player */
 router.get("/Details/:player_id", async (req, res, next) => {
   try {
     const player_details = await players_utils.getPlayerDetails(
@@ -16,6 +17,7 @@ router.get("/Details/:player_id", async (req, res, next) => {
   }
 });
 
+/* this path returns PreviewDetails about a player */
 router.get("/preview/:player_id", async (req, res, next) => {
   try {
     const player_preview = await players_utils.getPlayerPreviewDetails(
@@ -27,6 +29,7 @@ router.get("/preview/:player_id", async (req, res, next) => {
   }
 });
 
+/* this path returns Details about a players by Name */
 router.get("/SearchPlayer/:playerName", async (req, res, next) => {
   try {
 
@@ -44,6 +47,7 @@ router.get("/SearchPlayer/:playerName", async (req, res, next) => {
 });
 
 
+/* this path returns Details about a players by Name filtered by their positionId */
 router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next) => {
   let FilteredPositionPlayers = [];
   try {
@@ -65,6 +69,7 @@ router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next)
   }
 });
 
+/* this path returns Details about a players by Name filtered by their teamName */
 router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => {
   let FilteredTeamPlayers = [];
   try {
