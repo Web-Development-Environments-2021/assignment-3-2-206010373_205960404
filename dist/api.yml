@@ -523,7 +523,6 @@ paths:
           description: Players with this teamName are not found. 
 
 
-
 components:
   schemas:
     User:
@@ -598,6 +597,8 @@ components:
           type: string
           description: current stage name
           example: Championship Round
+        next_game:
+          $ref: '#/components/schemas/PreviewMatch'
     PlayerPreview:
       type: object
       properties:
