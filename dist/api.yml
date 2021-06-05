@@ -523,7 +523,7 @@ paths:
         "404":
           description: Players with this teamName are not found. 
 
-/matches/pastMatches:
+  /matches/pastMatches:
     get:
       summary: get full deatils about past Matches
       description: useful for league matches
@@ -541,23 +541,23 @@ paths:
         "404":
           description: Matches doesn't exists
 
-/matches/futureMatches:
-  get:
-    summary: get full deatils about future Matches
-    description: useful for league matches
-    tags:
-      - Matches
-    responses:
-      "200":
-        description: data about the future matches
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/PreviewMatch"
-      "404":
-        description: Matches doesn't exists
+  /matches/futureMatches:
+    get:
+      summary: get full deatils about future Matches
+      description: useful for league matches
+      tags:
+        - Matches
+      responses:
+        "200":
+          description: data about the future matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PreviewMatch"
+        "404":
+          description: Matches doesn't exists
 
 components:
   schemas:
