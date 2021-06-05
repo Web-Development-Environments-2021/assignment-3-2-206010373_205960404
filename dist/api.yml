@@ -433,7 +433,7 @@ paths:
                 $ref: '#/components/schemas/DetailsPlayer'
         "404":
           description: Can't find player ID
-          
+
   /players/SearchPlayer/{playerName}:
     get:
       summary: get search player by name
@@ -537,7 +537,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Match"
+                  $ref: "#/components/schemas/MatchObject"
         "404":
           description: Matches doesn't exists
 
@@ -707,12 +707,63 @@ components:
           items:
             type: object
             $ref: "#/components/schemas/PlayerPreview"
-        matches:
+        pastMatches:
           type: array
           items:
             type: object
-            $ref: "#/components/schemas/Match"
-    
+            $ref: "#/components/schemas/MatchObject"
+        futureMatches:
+          type: array
+          items:
+            type: object
+            $ref: "#/components/schemas/PreviewMatch"
+          
+
+            
+    MatchObject:
+      type: object
+      properties:
+        MatchID:
+          type: integer
+          description: ID of the match
+          example: 34
+        Date:
+          type: string
+          example: "2021-04-25T00:00:00.000Z"
+        Hour:
+          type: string
+          example: "15:30"
+        Stadium:
+          type: string
+          example: Camp nou
+        SuperligaName:
+          type: string
+          example: Superliga
+        SeasonName:
+          type: string
+          example: "2020/2021"
+        StageName:
+          type: string
+          example: Final
+        HomeTeamID:
+          type: integer
+          example: 939
+        AwayTeamID:
+          type: integer
+          example: 85
+        RefereeName:
+          type: string
+          example: Howard Webb
+        HomeGoals:
+          type: integer
+          example: 1
+        AwayGoals:
+          type: integer
+          example: 1
+        eventCalendar:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDetails'
     TeamPreview:
       type: object
       properties:
