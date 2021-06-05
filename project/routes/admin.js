@@ -101,7 +101,7 @@ router.post("/addEventtoMatch", async (req, res, next) => {
         }
         else {
             await DButils.execQuery(
-                `INSERT INTO dbo.EventDetails (MatchId, Date, Hour, TimeMinuteInGame, EventInGame, PlayerID, Description) VALUES ('${req.body.MatchId}', '${req.body.Date}','${req.body.Hour}', '${req.body.TimeMinuteInGame}','${req.body.EventInGame}','${req.body.player_id}','${req.body.Description}')`
+                `INSERT INTO dbo.EventDetails (MatchId, Date, Hour, TimeMinuteInGame, EventInGame, PlayerName, Description) VALUES ('${req.body.MatchId}', '${req.body.Date}','${req.body.Hour}', '${req.body.TimeMinuteInGame}','${req.body.EventInGame}','${req.body.player_name}','${req.body.Description}')`
             );
             res.status(201).send("event has been added succesfully");
         }

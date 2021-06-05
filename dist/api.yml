@@ -692,11 +692,10 @@ components:
           example: 80
         Date:
           type: string
-          format: Date
-          example: 2017-07-21T00:00:00.000+0000
+          example: "15.05.2021"
         Hour:
           type: string
-          example: 15:30
+          example: "15:30"
         TimeMinuteInGame:
           maximum: 90
           minimum: 0
@@ -706,8 +705,8 @@ components:
           type: string
           $ref: '#/components/schemas/EventInGame'
           description: You need to choose one of the following options - Goal, Offside, Foul,RedCard,YellowCard,Injury,SubPlayer
-        player_id:
-          type: integer
+        player_name:
+          type: string
           example: Neymar
         Description:
           type: string

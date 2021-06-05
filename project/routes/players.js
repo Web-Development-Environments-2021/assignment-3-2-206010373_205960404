@@ -62,7 +62,12 @@ router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next)
           FilteredPositionPlayers.push(playerSearch[i]);
         }
       }
+      if (FilteredPositionPlayers.length == 0) {
+        res.status(404).send('Players not founded');
+      }
+      else{
     res.send(FilteredPositionPlayers);
+      }
     }
   } catch (error) {
     next(error);
@@ -84,7 +89,12 @@ router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => 
             FilteredTeamPlayers.push(playerSearch[i]);
           }
         }
+        if (FilteredTeamPlayers.length == 0) {
+          res.status(404).send('Players not founded');
+        }
+        else{
       res.send(FilteredTeamPlayers);
+        }
     }
   } catch (error) {
     next(error);
