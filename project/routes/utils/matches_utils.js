@@ -64,9 +64,41 @@ async function getTeamsFutureMatches(teamId) {
   }
 }
 
+
+/* this function returns all the Matches have already been played*/
+async function getPastMatches() {
+  try {
+      const matches = (
+          await DButils.execQuery(
+          `SELECT * FROM dbo.Matches WHERE HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL`
+          )
+      );    
+      return matches;
+      } catch (error) {
+      throw new Error(error);
+  }
+}
+
+/* this function returns all the Matches has not been played*/
+async function getFutureMatches() {
+  try {
+      const fmatches = (
+          await DButils.execQuery(
+              `SELECT * FROM dbo.Matches WHERE HomeGoals IS NULL AND AwayGoals IS NULL `
+          )
+      );
+      return fmatches;
+      } catch (error) {
+      throw new Error(error);
+  }
+}
+
 exports.getPreviewMatch = getPreviewMatch;
 exports.getDetailsFinishMatch = getDetailsFinishMatch;
 exports.getMatchesInfo = getMatchesInfo;
 exports.getTeamsPastMatches = getTeamsPastMatches;
 exports.getTeamsFutureMatches = getTeamsFutureMatches;
+exports.getPastMatches = getPastMatches;
+exports.getFutureMatches = getFutureMatches;
+
 

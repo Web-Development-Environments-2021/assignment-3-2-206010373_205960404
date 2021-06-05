@@ -29,36 +29,6 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
 });
 
 
-/* this path returns FullDetails about Future teamMatches */
-router.get("/TeamsFutureMatches", async (req, res, next) => {
-  try {
-    const matches = await matches_utils.getTeamsFutureMatches();
-    if (matches == null) {
-      res.status(204).send('There are no future matches');
-    }
-    res.status(200).send(matches);
-  } catch (error) {
-    next(error);
-  }
-});
-
-
-/* this path returns FullDetails about Past teamMatches */
-router.get("/TeamsPastMatches", async (req, res, next) => {
-  try {
-    
-    const matches = await matches_utils.getTeamsPastMatches();
-    
-    if (matches == null) {
-      res.status(204).send('There are no past matches');
-    }
-
-    res.status(200).send(matches);
-
-  } catch (error) {
-    next(error);
-  }
-});
 
 /* this path returns Details about a team by team Name */
 router.get("/SearchTeam/:teamName", async (req, res, next) => {
