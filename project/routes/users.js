@@ -64,9 +64,15 @@ router.get("/favoritePlayers", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const player_id_deleted = req.body.player_id;
-    
-    const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","player_id", user_id ,player_id_deleted);
-    res.status(200).send("The player was successfully deleted as favorite");
+    let numberPlayers = await DButils.execQuery(`SELECT COUNT(*) myCount FROM dbo.FavoritePlayers
+    WHERE user_id='${user_id}' and player_id='${player_id_deleted}' `);
+    if(numberPlayers[0].myCount > 0){
+      const player_ids = await users_utils.removeAsFavorite("FavoritePlayers","player_id", user_id ,player_id_deleted);
+      res.status(200).send("The player was successfully deleted as favorite");
+    }
+    else{
+      res.status(404).send("The player not on the list");
+    }
   } catch (error) {
     next(error);
   }
@@ -107,9 +113,17 @@ router.get("/favoriteMatches", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const match_id_deleted = req.body.match_id;
-    
-    const match_ids = await users_utils.removeAsFavorite("FavoriteMatches","match_id", user_id ,match_id_deleted);
-    res.status(200).send("The match was successfully deleted as favorite");
+
+    let numberMatches = await DButils.execQuery(`SELECT COUNT(*) myCount FROM dbo.FavoriteMatches
+    WHERE user_id='${user_id}' and match_id='${match_id_deleted}' `);
+    if(numberMatches[0].myCount > 0){
+      const match_ids = await users_utils.removeAsFavorite("FavoriteMatches","match_id", user_id ,match_id_deleted);
+      res.status(200).send("The match was successfully deleted as favorite");
+    }
+    else{
+      res.status(404).send("The match not on the list");
+    }
+   
   } catch (error) {
     next(error);
   }
@@ -152,8 +166,17 @@ router.get("/favoriteTeams", async (req, res, next) => {
     const user_id = req.session.user_id;
     const team_id_deleted = req.body.team_id;
     
-    const team_ids = await users_utils.removeAsFavorite("FavoriteTeams","team_id", user_id ,team_id_deleted);
-    res.status(200).send("The team was successfully deleted as favorite");
+    let numberTeams = await DButils.execQuery(`SELECT COUNT(*) myCount FROM dbo.FavoriteTeams
+    WHERE user_id='${user_id}' and team_id='${team_id_deleted}' `);
+    if(numberTeams[0].myCount > 0){
+      const team_ids = await users_utils.removeAsFavorite("FavoriteTeams","team_id", user_id ,team_id_deleted);
+      res.status(200).send("The team was successfully deleted as favorite");
+    }
+    else{
+      res.status(404).send("The team not on the list");
+    }
+
+    
   } catch (error) {
     next(error);
   }
