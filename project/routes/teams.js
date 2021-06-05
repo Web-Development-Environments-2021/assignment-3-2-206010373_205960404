@@ -6,21 +6,20 @@ const players_utils = require("./utils/players_utils");
 const matches_utils = require("./utils/matches_utils");
 
 
+/* this path returns FullDetails about a tean by teamId */
 router.get("/teamFullDetails/:teamId", async (req, res, next) => {
   let team_players = [];
   try {
-    //team_players = await players_utils.getPlayersByTeam(req.params.teamId);
+    team_players = await players_utils.getPlayersByTeam(req.params.teamId);
     const teamDetails = await teams_utils.getTeamDetails(req.params.teamId);
     const pastMatches = await matches_utils.getTeamsPastMatches(req.params.teamId);
     const futureMatches = await matches_utils.getTeamsFutureMatches(req.params.teamId);
-
-
     res.send({
       id: req.params.teamId,
       name: teamDetails.teamName,
       coach: teamDetails.teamCoachName,
       logoPath: teamDetails.logo,
-      //players: team_players,
+      players: team_players,
       pastMatches : pastMatches,
       futureMatches : futureMatches 
     });
@@ -29,9 +28,10 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
   }
 });
 
+
+/* this path returns FullDetails about Future teamMatches */
 router.get("/TeamsFutureMatches", async (req, res, next) => {
   try {
-    
     const matches = await matches_utils.getTeamsFutureMatches();
     if (matches == null) {
       res.status(204).send('There are no future matches');
@@ -42,6 +42,8 @@ router.get("/TeamsFutureMatches", async (req, res, next) => {
   }
 });
 
+
+/* this path returns FullDetails about Past teamMatches */
 router.get("/TeamsPastMatches", async (req, res, next) => {
   try {
     
@@ -58,7 +60,7 @@ router.get("/TeamsPastMatches", async (req, res, next) => {
   }
 });
 
-
+/* this path returns Details about a team by team Name */
 router.get("/SearchTeam/:teamName", async (req, res, next) => {
   try {
     
