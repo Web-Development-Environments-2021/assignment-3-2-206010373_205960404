@@ -433,6 +433,7 @@ paths:
                 $ref: '#/components/schemas/DetailsPlayer'
         "404":
           description: Can't find player ID
+          
   /players/SearchPlayer/{playerName}:
     get:
       summary: get search player by name
@@ -522,6 +523,41 @@ paths:
         "404":
           description: Players with this teamName are not found. 
 
+/matches/pastMatches:
+    get:
+      summary: get full deatils about past Matches
+      description: useful for league matches
+      tags:
+        - Matches
+      responses:
+        "200":
+          description: data about the past matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+        "404":
+          description: Matches doesn't exists
+
+/matches/futureMatches:
+  get:
+    summary: get full deatils about future Matches
+    description: useful for league matches
+    tags:
+      - Matches
+    responses:
+      "200":
+        description: data about the future matches
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/PreviewMatch"
+      "404":
+        description: Matches doesn't exists
 
 components:
   schemas:
@@ -650,15 +686,32 @@ components:
     Team:
       type: object
       properties:
+        id:
+          type: string
+          description: team id
+          example: "85"
         name:
           type: string
           description: team name
-          example: København
+          example: "København"
+        coach:
+          type: string
+          description: team coach
+          example: "Jess Thorup"
+        logopath:
+          pattern: URL
+          type: string
+          description: URL for the team's image
         players:
           type: array
           items:
             type: object
             $ref: "#/components/schemas/PlayerPreview"
+        matches:
+          type: array
+          items:
+            type: object
+            $ref: "#/components/schemas/Match"
     
     TeamPreview:
       type: object
