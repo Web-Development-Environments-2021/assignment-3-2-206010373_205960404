@@ -39,11 +39,19 @@ async function getMatchesInfo(matches_ids_list) {
 /* this function returns all the Matches of a team that have already been played*/
   async function getTeamsPastMatches(teamId) {
     try {
-        const matches = (
+        let matches = (
             await DButils.execQuery(
             `SELECT * FROM dbo.Matches WHERE (HomeTeamId = '${teamId}' OR AwayTeamId = '${teamId}') AND HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL`
             )
         );    
+        for(i=0;i<matches.length;i++){
+          let events = (
+            await DButils.execQuery(
+            `SELECT * FROM dbo.EventDetails WHERE MatchId='${matches[i].MatchID}'`
+            )
+        );
+        matches[i].eventCalendar = events;
+        }
         return matches;
         } catch (error) {
         throw new Error(error);
@@ -73,7 +81,6 @@ async function getPastMatches() {
           `SELECT * FROM dbo.Matches WHERE HomeGoals IS NOT NULL AND AwayGoals IS NOT NULL`
           )
       );    
-      console.log(matches);
       for(i=0;i<matches.length;i++){
         let events = (
           await DButils.execQuery(
