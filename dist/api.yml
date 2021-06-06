@@ -830,16 +830,16 @@ components:
           example: Camp nou
         superligaName:
           type: string
-          example: Ligat Haal
+          example: Superliga
         seasonName:
           type: string
           example: 2020/2021
         stageName:
           type: string
-          example: Final
+          example: Regular Season
         refereeName:
           type: string
-          example: Dvir Rainisch
+          example: Pierluigi Collina
         homeTeamID:
           type: integer
           example: 85

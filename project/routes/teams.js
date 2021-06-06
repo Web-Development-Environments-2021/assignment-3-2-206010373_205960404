@@ -40,7 +40,8 @@ router.get("/SearchTeam/:teamName", async (req, res, next) => {
       res.status(404).send('Team not founded');
     }
     else{
-    res.status(200).send(teamSearch);
+      req.session.searchResult={[req.params.teamName]:teamSearch};
+      res.status(200).send(teamSearch);
     }
   } catch (error) {
     console.log(error);

@@ -37,10 +37,10 @@ router.get("/SearchPlayer/:playerName", async (req, res, next) => {
       res.status(404).send('Players not founded');
     }
     else{
+    req.session.searchResult={[req.params.playerName]:playerSearch};
     res.status(200).send(playerSearch);
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
@@ -65,7 +65,9 @@ router.get("/FilterByPositionId/:playerName/:positionId", async (req, res, next)
         res.status(404).send('Players not founded');
       }
       else{
-    res.send(FilteredPositionPlayers);
+        req.session.searchResult={[req.params.playerName]:FilteredPositionPlayers,
+        positionID : req.params.positionId};
+        res.send(FilteredPositionPlayers);
       }
     }
   } catch (error) {
@@ -92,7 +94,9 @@ router.get("/FilterByTeamName/:playerName/:teamName", async (req, res, next) => 
           res.status(404).send('Players not founded');
         }
         else{
-      res.send(FilteredTeamPlayers);
+          req.session.searchResult={[req.params.playerName]:FilteredTeamPlayers,
+            teamName : req.params.teamName};
+          res.send(FilteredTeamPlayers);
         }
     }
   } catch (error) {
