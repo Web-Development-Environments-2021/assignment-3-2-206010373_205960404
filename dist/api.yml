@@ -751,6 +751,12 @@ components:
         AwayTeamID:
           type: integer
           example: 85
+        home_team:
+          type: string
+          example: Hapoel
+        away_team:
+          type: string
+          example: Macaabi
         RefereeName:
           type: string
           example: Howard Webb

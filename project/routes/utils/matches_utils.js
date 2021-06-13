@@ -88,6 +88,26 @@ async function getPastMatches() {
           )
       );
       matches[i].eventCalendar = events;
+      const HomeTeam =  await axios.get(
+        `https://soccer.sportmonks.com/api/v2.0/teams/${matches[i].HomeTeamID}`,
+        {
+          params: {
+            api_token: process.env.api_token,
+          },
+        }
+      );
+      matches[i].home_team = HomeTeam.data.data.name;
+      
+      const AwayTeam = await axios.get(
+        `https://soccer.sportmonks.com/api/v2.0/teams/${matches[i].AwayTeamID}`,
+        {
+          params: {
+            api_token: process.env.api_token,
+          },
+        }
+      );
+      matches[i].away_team = AwayTeam.data.data.name;
+
       }
       return matches;
       } catch (error) {
