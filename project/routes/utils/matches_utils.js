@@ -7,11 +7,11 @@ const teams_utils = require("./teams_utils");
 async function getPreviewMatch(MatchId) {
     
     Match = await DButils.execQuery(
-      `select MatchId, Date, Hour, Stadium, HomeTeamID, AwayTeamID from dbo.Matches where MatchId='${MatchId}'`
+      `select MatchId, Date, Hour, Stadium, HomeTeamID, AwayTeamID, home_team, away_team from dbo.Matches where MatchId='${MatchId}'`
     );
     console.log(Match);
-    Match[0].HomeTeamName = await teams_utils.getTeamName(Match[0].HomeTeamID);
-    Match[0].AwayTeamName = await teams_utils.getTeamName(Match[0].AwayTeamID);
+    // Match[0].HomeTeamName = Match[0].home_team;
+    // Match[0].AwayTeamName = Match[0].away_team;
     console.log(Match);
     return Match;
 }

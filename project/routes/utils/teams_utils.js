@@ -52,6 +52,7 @@ async function getTeamforfavorite(teamId) {
   teamName = await getTeamName(teamId);
   logo = await getTeamLogo(teamId);
   return{
+      team_id : teamId,
       teamName : teamName.teamName,
       logo: logo.logo
   }

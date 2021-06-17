@@ -7,7 +7,7 @@ router.post("/Register", async (req, res, next) => {
   try {
     // parameters exists
     // valid parameters
-    // username exists
+    // cusername exists
     const users = await DButils.execQuery(
       "SELECT username FROM dbo.Users"
     );
