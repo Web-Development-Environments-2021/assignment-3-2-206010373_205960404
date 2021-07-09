@@ -92,7 +92,7 @@ async function getTeamsByName(name) {
   }
   }
   teams.data.data.forEach(team => {
-      teams_list.push({"teamName": team.name, "teamLogo": team.logo_path})  
+      teams_list.push({"teamName": team.name, "teamLogo": team.logo_path, "id": team.id})  
   });
   return teams_list;
 }

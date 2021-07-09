@@ -134,6 +134,7 @@ async function getplayersByName(name) {
       include: "team.league",
     },
   });
+  console.log(players1.data);
   let PlayersSearchList = [];
   for (i=0; i<players1.data.data.length;i++){
     try{
@@ -154,7 +155,8 @@ async function getplayersByName(name) {
 /* helper function that returns the players data*/
 function extractRelevantPlayerDataForSearch(players_info) {
   return players_info.map((player_info) => {
-    const { fullname, image_path, position_id } = player_info;
+    console.log(player_info);
+    const { player_id,team_id, fullname, image_path, position_id } = player_info;
     var name;
     if(player_info.team != null){
       var { name } = player_info.team.data;
@@ -163,6 +165,8 @@ function extractRelevantPlayerDataForSearch(players_info) {
       var { name } = "The Player doesn't have a Team";
     }
     return {
+      player_id : player_id,
+      team_id : team_id,
       name: fullname,
       image: image_path,
       position: position_id,
