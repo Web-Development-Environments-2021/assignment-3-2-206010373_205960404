@@ -3,6 +3,7 @@ var router = express.Router();
 const DButils = require("../routes/utils/DButils");
 const users_utils = require("./utils/users_utils");
 const admin_utils = require("./utils/admin_utils");
+const teams_utils = require("./utils/teams_utils");
 
 
 /* this function finds the user that is in the system*/ 
@@ -54,11 +55,13 @@ router.post("/addPreviewMatch", async (req, res, next) => {
             res.status(403).send("The user doesn't have Permissions to add a match")
         }
         else {
+            const home = await teams_utils.getTeamName(req.body.homeTeamID);
+            const away = await teams_utils.getTeamName(req.body.awayTeamID);
             console.log(req.body);
             console.log(req.body.seasonName);
             await DButils.execQuery(
-                `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, RefereeName, HomeTeamID, AwayTeamID) VALUES 
-                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.refereeName}','${req.body.homeTeamID}','${req.body.awayTeamID}')`
+                `INSERT INTO dbo.Matches (Date, Hour, Stadium, SuperligaName, SeasonName, StageName, RefereeName, HomeTeamID, AwayTeamID, home_team, away_team) VALUES 
+                ('${req.body.date}','${req.body.hour}', '${req.body.stadium}','${req.body.superligaName}','${req.body.seasonName}','${req.body.stageName}','${req.body.refereeName}','${req.body.homeTeamID}','${req.body.awayTeamID}','${home.teamName}','${away.teamName}')`
                 );
             res.status(201).send("match that was not played was added succesfully");
         }
